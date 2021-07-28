@@ -132,6 +132,7 @@ const contentType = (pathname) => MEDIA_TYPES[ext(pathname)];
 
 addEventListener("fetch", async (event) => {
   const { pathname } = new URL(event.request.url);
+  console.log(event.request.url, pathname, PATHNAME_PREFIX, import.meta.url);
 
   const rawContent = await (await fetch(new URL(PATHNAME_PREFIX + pathname, import.meta.url), {
     headers: {
