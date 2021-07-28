@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="uft-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2">
+    <meta name="author" content="Mostafa Elshamy">
+    <meta name="description" content="Engineering magical human-computer experiences and other special topics in computer science.">
+    <title>Mostafa Elshamy</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://busy-dog-44.deno.dev/melhosseiny/aurora/main/src/typography/type.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/rhythm.css">
+    <link rel="stylesheet" href="https://busy-dog-44.deno.dev/melhosseiny/aurora/main/src/button/button.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.css" integrity="sha256-jj2UbUI7P11xTWk4bl9Rp6aBaCKYD1/cxBQpXwgB+fs=" crossorigin="anonymous">
+  </head>
+  <body>
+    <ad-progress id="progress"></ad-progress>
+    <ad-toast id="toast"></ad-toast>
+    <wd-contact-dialog id="contact-dialog"></wd-contact-dialog>
+    <header>
+      <div class="about">
+        <div class="brand">
+          <div class="profile"></div>
+          <hgroup>
+            <h1><a href="/">warm-dawn</a></h1>
+          </hgroup>
+        </div>
+        <p>Engineering magical human-computer experiences<br>and other special topics in computer science.</p>
+        <div class="actions">
+          <button id="contact-btn" onclick="showDialog()">
+            <i class="material-icons">chat_bubble_outline</i>
+            Send me a message
+          </button>
+          <a class="button" href="https://github.com/melhosseiny" target="_blank" target="_blank" rel="noreferrer">
+            <i class="material-icons">code</i>
+            Follow me on Github
+          </a>
+          <a class="button" href="https://www.linkedin.com/in/mostafa-elshamy" target="_blank" target="_blank" rel="noreferrer">
+            <i class="material-icons">work_outline</i>
+            Connect on LinkedIn
+          </a>
+          <a class="button" href="https://scholar.google.com/citations?user=T-icgGMAAAAJ&hl=en" target="_blank" target="_blank" rel="noreferrer">
+            <i class="material-icons">short_text</i>
+            Publications
+          </a>
+          <a class="button" href="/bookshelf">
+            <i class="material-icons">bookmark_border</i>
+            Bookshelf
+          </a>
+        </div>
+      </div>
+      <div class="license hide-sm">
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">
+          <img alt="Creative Commons License" style="border-width:0;" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png">
+        </a>
+        <small>
+          Maintained by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Mostafa Elshamy</span> under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0 License</a>
+        </small>
+      </div>
+    </header>
+    <main id="main"></main>
+    <footer class="hide-lg">
+      <div class="license">
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">
+          <img alt="Creative Commons License" style="border-width:0;" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png">
+        </a>
+        <small>
+          Maintained by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Mostafa Elshamy</span> under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0 License</a>
+        </small>
+      </div>
+    </footer>
+    <script type="module">
+      import { set_shared_style_sheets } from "https://busy-dog-44.deno.dev/melhosseiny/sourdough/main/sourdough.js";
+      const document_style_sheets = [...document.styleSheets];
+
+      function get_constructed_style_sheet(style_sheet) {
+        const sheet = new CSSStyleSheet();
+        const rules = [];
+
+        for (let i = 0; i < style_sheet.rules.length; i++) {
+          rules.push(style_sheet.rules[i].cssText);
+        }
+        sheet.replaceSync(rules.join(''));
+        return sheet;
+      }
+
+      const document_constructed_sheets = document_style_sheets.map(sheet => get_constructed_style_sheet(sheet));
+
+      set_shared_style_sheets(document_style_sheets);
+
+      import "/components/app.js";
+
+      import { progress } from "https://busy-dog-44.deno.dev/melhosseiny/aurora/main/src/progress/progress.js";
+      import { toast } from "https://busy-dog-44.deno.dev/melhosseiny/aurora/main/src/toast/toast.js";
+
+      import { toc } from "/components/toc.js";
+      import { contact_dialog } from "/components/contact_dialog.js";
+
+      ["ad-progress", "ad-toast", "wd-toc", "wd-contact-dialog"].forEach(element => {
+        if (document.querySelector(element)) {
+          document.querySelector(element).component.adopt_styles(document_constructed_sheets);
+        }
+      });
+
+      window.showDialog = () => {
+        console.log(document.querySelector('#contact-dialog').component.show());
+      }
+    </script>
+  </body>
+</html>

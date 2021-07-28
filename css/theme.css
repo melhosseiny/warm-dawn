@@ -1,0 +1,213 @@
+h2 {
+  margin-bottom: var(--line-height-h2);
+}
+
+h3 {
+  margin-bottom: var(--line-height-h3);
+}
+
+h4, h5, h6 {
+  margin-bottom: var(--line-height-h4);
+}
+
+@font-face {
+  font-family: "SF Pro Display";
+  src: url('/fonts/sf-pro-text_regular.woff2') format('woff2');
+  font-weight: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "SF Pro Text";
+  src: url('/fonts/sf-pro-text_regular.woff2') format('woff2');
+  font-weight: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "Geneva";
+  src: url('/fonts/Geneva-Regular.woff2') format('woff2');
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "Cascadia Code";
+  src: url('/fonts/CascadiaCode.woff2') format('woff2');
+  font-display: fallback;
+}
+
+:root {
+  /* --type-display: jaf-bernino-sans-condensed, sans-serif; */
+  /* --type-body: ff-tisa-web-pro, serif; */
+  --type-mono: "Cascadia Code", monospace;
+  --type-display: "SF Pro Display", sans-serif;
+  --type-body: "SF Pro Text", sans-serif;
+  /* --type-brand: charlemagne-std, sans-serif; */
+  /* --type-brand-letter-spacing: 0.38em; */
+  --background-color: 255, 255, 255;
+  --text-color: 37, 37, 36;
+  --primary-color: transparent;
+  --accent-color: 33, 129, 177;
+  --border-radius: 0;
+  --text-decoration-color: 0, 208, 193;
+}
+
+header, footer {
+  font-family: var(--type-display);
+}
+
+/* Hyperlinks: LVFHA */
+a, a:link, a:visited, a:hover, a:active {
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--accent-color), 1);
+  transition: color 0.5s ease, text-decoration-color 0.5s ease;
+}
+
+a:visited {
+  color: rgb(var(--text-color));
+}
+
+a:hover, a:active {
+  color: rgb(var(--accent-color));
+  text-decoration-color: rgb(var(--accent-color));
+}
+
+/* figures */
+figure {
+  margin-bottom: 1em;
+}
+
+figure.centered {
+  text-align: center;
+}
+
+figure.centered img {
+  margin: 0 auto;
+}
+
+figure.framed {
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 1px;
+}
+
+figure figcaption {
+  font-family: var(--type-display);
+  color: #666;
+}
+
+/* blockquote */
+blockquote p {
+  color: rgba(var(--text-color), 0.6);
+}
+
+/* pre */
+pre, code {
+  font-family: var(--type-mono);
+}
+
+pre {
+  margin-bottom: 1em;
+  background-color: #eee;
+  padding: 0.5em;
+  overflow: auto;
+}
+
+/* buttons */
+button, input[type="button"], a.button {
+  --button-color: 255, 255, 255;
+  --opacity-hover: 0.12;
+  --opacity-active: 0.24;
+  align-items: center;
+  margin-bottom: 0.5em;
+  font-family: var(--type-display);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  border-radius: 4px;
+
+  font-feature-settings: normal;
+  font-variant-caps: all-small-caps;
+}
+
+button:hover, input[type="button"]:hover, a.button:hover {
+  color: rgb(var(--text-color));
+  background-color: rgba(0, 0, 0, var(--opacity-hover));
+}
+
+button:active, input[type="button"]:active, a.button:active {
+  background-color: rgba(0, 0, 0, var(--opacity-active));
+}
+
+/* icons */
+.material-icons {
+  vertical-align: middle;
+  font-size: var(--font-size-body);
+  font-variant-caps: normal;
+}
+
+.material-icons.favorite {
+  color: #ff19df;
+}
+
+button .material-icons, a.button .material-icons {
+  margin-right: 8px;
+}
+
+/* glitch embeds */
+.glitch-embed-wrap {
+  margin-bottom: 1em;
+}
+
+/* math */
+.katex {
+  font-size: 1em;
+}
+
+/* tags */
+ul.tags li:before {
+  content: '#';
+  margin-right: 0;
+  color: #999;
+}
+
+ul.tags {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+ul.tags li {
+  font-family: var(--type-display);
+  display: flex;
+  background-color: rgba(0,0,0,0.12);
+  border-radius: var(--border-radius);
+  padding: 0 8px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+/* color-scheme */
+ul.color-scheme {
+  font-family: var(--type-display);
+  display: flex;
+  flex-direction: column;
+}
+
+ul.color-scheme li {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.5em;
+  border: 1px solid rgba(0,0,0,.12);
+  box-sizing: border-box;
+  height: 100px;
+}
+
+ul.color-scheme li .meta {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+ul.color-scheme li:before {
+  content: none;
+}
