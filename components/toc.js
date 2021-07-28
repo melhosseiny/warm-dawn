@@ -1,5 +1,7 @@
 import { html, state, web_component, define_component } from "https://busy-dog-44.deno.dev/melhosseiny/sourdough/main/sourdough.js";
 
+const ASSET_HOST = 'https://important-deer-81.deno.dev';
+
 const timeTmpl = (note) => note.time_from? (note.time_to? `${note.time_from}—${note.time_to}` : `${note.time_from}`) : `${note.time_to}`;
 
 const template = (data) => html`
@@ -92,7 +94,7 @@ export function toc(spec) {
   const _state = _web_component.state;
 
   const fetch_notes = async () => {
-    const response = await fetch('http://localhost:4507/notes.json');
+    const response = await fetch(`${ASSET_HOST}/notes.json`);
     _state.notes = await response.json();
   }
 
