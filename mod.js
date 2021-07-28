@@ -131,7 +131,7 @@ const ext = (pathname) => `.${pathname.split(".").pop()}`;
 const contentType = (pathname) => MEDIA_TYPES[ext(pathname)];
 
 addEventListener("fetch", async (event) => {
-  const { pathname } = new URL(event.request.url);
+  let { pathname } = new URL(event.request.url);
 
   pathname = pathname === "/" ? "/index.html" : pathname;
   console.log(event.request.url, pathname, PATHNAME_PREFIX, import.meta.url);
