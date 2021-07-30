@@ -147,6 +147,7 @@ addEventListener("fetch", async (event) => {
   console.log(event.request.url, contentTypeValue, ext);
   if (contentTypeValue && ext(pathname) !== ".woff2") {
     headers.set("content-type", contentTypeValue);
+    headers.set("x-content-type-options", "nosniff")
   }
   headers.set("access-control-allow-origin", "*")
 
