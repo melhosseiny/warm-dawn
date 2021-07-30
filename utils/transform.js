@@ -47,9 +47,6 @@ export function Transform(spec) {
 
     [...sources].map(source => {
       let srcParts = source.src.split('/');
-      if (source.src.indexOf("localhost") === -1) {
-        host = srcParts.slice(0,3).join('/');
-      }
       let relPath = srcParts.slice(3,srcParts.length).join("/");
       console.log('src', host + '/' + relPath);
       source.setAttribute('src', host + '/' + relPath);
