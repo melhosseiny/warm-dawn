@@ -7,7 +7,7 @@ console.log(`HTTP webserver running.  Access it at:  http://localhost:8080/`);
 for await (const request of server) {
   console.log(request.url);
 
-  if (request.url.endsWith('.js') || request.url.endsWith('.css') || request.url.endsWith('.woff2')) {
+  if (request.url.endsWith('.js') || request.url.endsWith('.css') || request.url.endsWith('.woff2') || request.url.endsWith('robots.txt')) {
     request.respond(await serveFile(request, `${Deno.cwd()}/${request.url}`));
   } else {
     request.respond(await serveFile(request, `${Deno.cwd()}/index.html`));

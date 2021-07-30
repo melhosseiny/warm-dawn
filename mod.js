@@ -142,13 +142,17 @@ addEventListener("fetch", async (event) => {
     },
   })).text();
 
+  const headers = new Headers();
+  const contentTypeValue = contentType(pathname);
+  if (contentTypeValue && ext !== "woff2") {
+    headers.set("content-type", contentTypeValue);
+  }
+  headers.set("access-control-allow-origin", "*")
+
   event.respondWith(
     new Response(rawContent, {
       status: 200,
-      headers: new Headers({
-        "Content-Type": contentType(pathname),
-        "Access-Control-Allow-Origin": "*",
-      }),
+      headers
     }),
   );
 });

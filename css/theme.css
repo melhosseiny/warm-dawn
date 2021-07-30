@@ -25,25 +25,15 @@ h4, h5, h6 {
 }
 
 @font-face {
-  font-family: "Geneva";
-  src: url('/fonts/Geneva-Regular.woff2') format('woff2');
-  font-display: fallback;
-}
-
-@font-face {
   font-family: "Cascadia Code";
   src: url('/fonts/CascadiaCode.woff2') format('woff2');
   font-display: fallback;
 }
 
 :root {
-  /* --type-display: jaf-bernino-sans-condensed, sans-serif; */
-  /* --type-body: ff-tisa-web-pro, serif; */
   --type-mono: "Cascadia Code", monospace;
   --type-display: "SF Pro Display", sans-serif;
   --type-body: "SF Pro Text", sans-serif;
-  /* --type-brand: charlemagne-std, sans-serif; */
-  /* --type-brand-letter-spacing: 0.38em; */
   --background-color: 255, 255, 255;
   --text-color: 37, 37, 36;
   --primary-color: transparent;
@@ -140,7 +130,7 @@ button:active, input[type="button"]:active, a.button:active {
 /* icons */
 .material-icons {
   vertical-align: middle;
-  font-size: var(--font-size-body);
+  width: var(--font-size-body);
   font-variant-caps: normal;
 }
 
