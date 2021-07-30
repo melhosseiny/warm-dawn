@@ -15,11 +15,8 @@ export function Transform(spec) {
     [...imgs].map(img => {
       // console.log(`imginHtmlBlock`, node, img);
       let srcParts = img.src.split('/');
-      if (img.src.indexOf("localhost") === -1) {
-        host = srcParts.slice(0,3).join('/');
-      }
       let relPath = srcParts.slice(3,srcParts.length).join('/');
-      console.log(srcParts, relPath);
+      // console.log(host, srcParts, relPath);
       if (loading === 'lazy') {
         img.setAttribute('loading', loading);
       }
