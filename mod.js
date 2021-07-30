@@ -144,7 +144,7 @@ addEventListener("fetch", async (event) => {
 
   const headers = new Headers();
   const contentTypeValue = contentType(pathname);
-  if (contentTypeValue && ext !== "woff2") {
+  if (contentTypeValue && ext !== ".woff2") {
     headers.set("content-type", contentTypeValue);
   }
   headers.set("access-control-allow-origin", "*")
