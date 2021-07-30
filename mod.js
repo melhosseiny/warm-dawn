@@ -159,5 +159,5 @@ addEventListener("fetch", async (event) => {
     delete res.headers["content-type"];
   }
 
-  event.respondWith(response);
+  event.respondWith(res);
 });
