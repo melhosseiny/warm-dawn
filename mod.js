@@ -141,21 +141,19 @@ addEventListener("fetch", async (event) => {
 
   console.log(url.href);
 
-  const rawContent = await (await fetch(url, {
+  const res = await fetch(url, {
     headers: {
       "Authorization": `token ${Deno.env.get("GITHUB_ACCESS_TOKEN")}`,
     },
-  })).text();
+  });
 
   const headers = new Headers({
     "content-type": ext(pathname) === ".woff2" ? "application/octet-stream" : contentType(pathname),
     "access-control-allow-origin": "*"
   });
 
-  const res = new Response(rawContent, {
+  event.respondWith(new Response(res.body, {
     status: 200,
     headers
-  })
-
-  event.respondWith(res);
+  }));
 });
