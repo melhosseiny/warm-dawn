@@ -150,10 +150,14 @@ addEventListener("fetch", async (event) => {
   }
   headers.set("access-control-allow-origin", "*")
 
-  event.respondWith(
-    new Response(rawContent, {
-      status: 200,
-      headers
-    }),
-  );
+  const res = new Response(rawContent, {
+    status: 200,
+    headers
+  })
+
+  if (contentTypeValue && ext(pathname) !== ".woff2") {
+    delete res.headers["content-type"];
+  }
+
+  event.respondWith(response);
 });
