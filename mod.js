@@ -137,9 +137,7 @@ addEventListener("fetch", async (event) => {
   pathname = pathname === "/" ? "/index.html" : pathname;
   console.log(event.request.url, pathname, PATHNAME_PREFIX, import.meta.url);
 
-  const url = ext(pathname) === ".woff2"
-    ? new URL(RAW_PATHNAME_PREFIX + pathname, "https://github.com")
-    : new URL(PATHNAME_PREFIX + pathname, import.meta.url);
+  const url = new URL(PATHNAME_PREFIX + pathname, import.meta.url);
 
   console.log(url.href);
 
@@ -150,7 +148,7 @@ addEventListener("fetch", async (event) => {
   })).text();
 
   const headers = new Headers({
-    "content-type": contentType(pathname),
+    "content-type": ext(pathname) === ".woff2" ? "application/octet-stream" : contentType(pathname),
     "access-control-allow-origin": "*"
   });
 
