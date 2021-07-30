@@ -127,6 +127,7 @@ const MEDIA_TYPES = {
 };
 
 const PATHNAME_PREFIX = "/melhosseiny/warm-dawn/main";
+const RAW_PATHNAME_PREFIX = "/melhosseiny/warm-dawn/raw/main";
 const ext = (pathname) => `.${pathname.split(".").pop()}`;
 const contentType = (pathname) => MEDIA_TYPES[ext(pathname)];
 
@@ -134,31 +135,27 @@ addEventListener("fetch", async (event) => {
   let { pathname } = new URL(event.request.url);
 
   pathname = pathname === "/" ? "/index.html" : pathname;
-  // console.log(event.request.url, pathname, PATHNAME_PREFIX, import.meta.url);
+  console.log(event.request.url, pathname, PATHNAME_PREFIX, import.meta.url);
 
-  const rawContent = await (await fetch(new URL(PATHNAME_PREFIX + pathname, import.meta.url), {
+  const url = ext(pathname) === ".woff2"
+    ? new URL(RAW_PATHNAME_PREFIX + pathname, "https://github.com")
+    : new URL(PATHNAME_PREFIX + pathname, import.meta.url);
+
+  const rawContent = await (await fetch(url, {
     headers: {
       "Authorization": `token ${Deno.env.get("GITHUB_ACCESS_TOKEN")}`,
     },
   })).text();
 
-  const headers = new Headers();
-  const contentTypeValue = contentType(pathname);
-  console.log(event.request.url, contentTypeValue, ext);
-  if (contentTypeValue && ext(pathname) !== ".woff2") {
-    headers.set("content-type", contentTypeValue);
-    headers.set("x-content-type-options", "nosniff")
-  }
-  headers.set("access-control-allow-origin", "*")
+  const headers = new Headers({
+    "content-type": contentType,
+    "access-control-allow-origin": "*"
+  });
 
   const res = new Response(rawContent, {
     status: 200,
     headers
   })
-
-  if (contentTypeValue && ext(pathname) !== ".woff2") {
-    delete res.headers["content-type"];
-  }
 
   event.respondWith(res);
 });
