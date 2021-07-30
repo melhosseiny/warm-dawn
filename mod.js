@@ -148,7 +148,7 @@ addEventListener("fetch", async (event) => {
   });
 
   const headers = new Headers({
-    "content-type": ext(pathname) === ".woff2" ? "application/octet-stream" : contentType(pathname),
+    "content-type": contentType(pathname),
     "access-control-allow-origin": "*"
   });
 
