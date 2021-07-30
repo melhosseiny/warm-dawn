@@ -141,6 +141,8 @@ addEventListener("fetch", async (event) => {
     ? new URL(RAW_PATHNAME_PREFIX + pathname, "https://github.com")
     : new URL(PATHNAME_PREFIX + pathname, import.meta.url);
 
+  console.log(url.href);
+
   const rawContent = await (await fetch(url, {
     headers: {
       "Authorization": `token ${Deno.env.get("GITHUB_ACCESS_TOKEN")}`,
