@@ -129,7 +129,9 @@ const MEDIA_TYPES = {
 const PATHNAME_PREFIX = "/melhosseiny/warm-dawn/main";
 const RAW_PATHNAME_PREFIX = "/melhosseiny/warm-dawn/raw/main";
 const ext = (pathname) => `.${pathname.split(".").pop()}`;
-const contentType = (pathname) => MEDIA_TYPES[ext(pathname)];
+const content_type = (pathname) => MEDIA_TYPES[ext(pathname)];
+
+const static_path = ["/components", "/css", "/fonts", "/utils", "/favicon.ico", "/robots.txt"];
 
 addEventListener("fetch", async (event) => {
   let { pathname } = new URL(event.request.url);
@@ -137,7 +139,9 @@ addEventListener("fetch", async (event) => {
   pathname = pathname === "/" ? "/index.html" : pathname;
   console.log(event.request.url, pathname, PATHNAME_PREFIX, import.meta.url);
 
-  const url = new URL(PATHNAME_PREFIX + pathname, import.meta.url);
+  const url = static_path.some(prefix => pathname.startsWith(prefix))
+    ? new URL(PATHNAME_PREFIX + pathname, import.meta.url)
+    : new URL(PATHNAME_PREFIX + "/index.html", import.meta.url)
 
   console.log(url.href);
 
@@ -147,10 +151,8 @@ addEventListener("fetch", async (event) => {
     },
   });
 
-  console.log(JSON.stringify(res));
-
   const headers = new Headers({
-    "content-type": contentType(pathname),
+    "content-type": content_type(pathname),
     "access-control-allow-origin": "*"
   });
 
