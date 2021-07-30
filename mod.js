@@ -147,6 +147,8 @@ addEventListener("fetch", async (event) => {
     },
   });
 
+  console.log(JSON.stringify(res));
+
   const headers = new Headers({
     "content-type": contentType(pathname),
     "access-control-allow-origin": "*"
