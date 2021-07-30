@@ -134,7 +134,7 @@ addEventListener("fetch", async (event) => {
   let { pathname } = new URL(event.request.url);
 
   pathname = pathname === "/" ? "/index.html" : pathname;
-  console.log(event.request.url, pathname, PATHNAME_PREFIX, import.meta.url);
+  // console.log(event.request.url, pathname, PATHNAME_PREFIX, import.meta.url);
 
   const rawContent = await (await fetch(new URL(PATHNAME_PREFIX + pathname, import.meta.url), {
     headers: {
@@ -144,6 +144,7 @@ addEventListener("fetch", async (event) => {
 
   const headers = new Headers();
   const contentTypeValue = contentType(pathname);
+  console.log(event.request.url, contentTypeValue, ext);
   if (contentTypeValue && ext !== ".woff2") {
     headers.set("content-type", contentTypeValue);
   }
