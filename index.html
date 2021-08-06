@@ -85,13 +85,12 @@
 
       import { progress } from "https://busy-dog-44.deno.dev/melhosseiny/aurora/main/src/progress/progress.js";
       import { toast } from "https://busy-dog-44.deno.dev/melhosseiny/aurora/main/src/toast/toast.js";
-
+      import { contact_dialog } from "/components/contact_dialog.js";
       import { toc } from "/components/toc.js";
 
       let dm_me;
 
       if (window.HTMLDialogElement) {
-        const { contact_dialog } = await import("/components/contact_dialog.js");
         console.log(document.querySelector('#contact-btn'));
         dm_me = () => {
           console.log("show_dialog");
