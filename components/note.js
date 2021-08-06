@@ -20,7 +20,7 @@ const parse_markdown = function(markdown) {
     node = event.node;
 
     if (event.entering) {
-      console.log('imgCount', imgCount);
+      // console.log('imgCount', imgCount);
       const loading = imgCount > 0 ? "lazy" : "auto";
       switch (node.type) {
         case 'html_block':
@@ -48,6 +48,7 @@ const template = (data) => html`
   <article ref="markup" class="${data.id}">
     ${ data.markup }
   </article>
+  <style>@import "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css";</style>
 `
 
 const md_404 = (error) => `
@@ -76,6 +77,67 @@ const style = `
     display: block;
     max-width: 100%;
     box-sizing: border-box;
+  }
+
+  .material-icons {
+    vertical-align: bottom;
+  }
+
+  /* dirty flex */
+  .row.ignore-breakpoint {
+    max-width: 38em;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .ignore-breakpoint .flex-child {
+    box-sizing: border-box;
+    margin-right: 1em;
+    width: calc(50% - 0.5em)
+  }
+
+  .ignore-breakpoint .flex-child-two-third {
+    width: calc(66.66% - 1em);
+  }
+
+  .ignore-breakpoint .flex-child-third {
+    width: calc(33.33% - 1em);
+  }
+
+  .ignore-breakpoint .flex-child:last-child {
+    margin-right: 0;
+  }
+
+  @media screen and (min-width: 30em) {
+    .row {
+      max-width: 38em;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+    }
+
+    .center {
+      justify-content: center;
+    }
+
+    .flex-child {
+      box-sizing: border-box;
+      margin-right: 1em;
+      width: calc(50% - 0.5em)
+    }
+
+    .flex-child-two-third {
+      width: calc(66.66% - 1em);
+    }
+
+    .flex-child-third {
+      width: calc(33.33% - 1em);
+    }
+
+    .flex-child:last-child {
+      margin-right: 0;
+    }
   }
 `
 

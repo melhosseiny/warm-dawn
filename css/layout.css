@@ -12,6 +12,7 @@ body {
   flex-direction: column;
   align-items: stretch;
   min-height: 100vh;
+  flex-wrap: wrap;
 }
 
 @media screen and (min-width: 60em) {
@@ -24,9 +25,8 @@ header {
   display: flex;
   flex-direction: column;
   flex: 0 0 auto;
-  padding: 0 1em 1em 1em;
+  padding: 1em;
   border-bottom: 1px solid rgba(0,0,0,0.2);
-  justify-content: space-between;
   box-sizing: border-box;
 }
 
@@ -34,7 +34,7 @@ header {
   header {
     flex-basis: 38.2%;
     border-bottom: 0;
-    border-right: 1px solid rgba(0,0,0,0.2);
+    /* border-right: 1px solid rgba(0,0,0,0.2); */
   }
 }
 
@@ -43,23 +43,24 @@ header h1, header h2 {
   margin-top: 0;
 }
 
-header .brand {
+header hgroup h1 {
   display: flex;
   flex-direction: row;
-  align-items: stretch;
-  margin-top: 1em;
-  margin-bottom: 1em;
+  align-items: center;
+  margin-bottom: var(--line-height-body);
 }
 
-header .brand a {
-  color: #f57335;
+header hgroup h1 a.base {
+  color: rgb(var(--text-color));
+  font-weight: bold;
   text-decoration: none;
 }
 
-header .profile {
+header .logo {
   display: block;
-  width: 50px;
-  margin-right: 1em;
+  width: var(--line-height-body);
+  height: var(--line-height-body);
+  margin-right: 8px;
   background: linear-gradient(to bottom,
     #f57335 25%,
     hsla(19, 91%, 63%, 1) 25%, hsla(19, 91%, 63%, 1) 40%,
@@ -68,8 +69,11 @@ header .profile {
     hsla(19, 91%, 78%, 1) 75%);
 }
 
+header p {
+  max-width: 24em;
+}
+
 header .actions {
-  margin-top: 0.5em;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -87,94 +91,27 @@ header .actions button, header .actions a.button {
 main {
   display: flex;
   flex-direction: column;
-  flex-grow: 0;
+  flex-grow: 1;
   flex-basis: auto;
   padding: 1em;
   box-sizing: border-box;
   min-width: 0; /* to contain pre */
-  min-height: 1px;
 }
 
 @media screen and (min-width: 60em) {
   main {
+    min-height: calc(100vh - 40px - 2em);
     flex-basis: 61.8%;
     /* justify-content: center; */
   }
 }
 
-main > article {
-  min-height: 1px; /* IE image resize bug */
+wd-toc {
+  margin-top: calc(2 * var(--line-height-body));
 }
 
 footer {
   padding: 1em;
-}
-
-/* dirty flex */
-.row.ignore-breakpoint {
-  max-width: 38em;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-}
-
-.ignore-breakpoint .flex-child {
+  width: 100vw;
   box-sizing: border-box;
-  margin-right: 1em;
-  width: calc(50% - 0.5em)
-}
-
-.ignore-breakpoint .flex-child-two-third {
-  width: calc(66.66% - 1em);
-}
-
-.ignore-breakpoint .flex-child-third {
-  width: calc(33.33% - 1em);
-}
-
-.ignore-breakpoint .flex-child:last-child {
-  margin-right: 0;
-}
-
-@media screen and (min-width: 30em) {
-  .row {
-    max-width: 38em;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-  }
-
-  .center {
-    justify-content: center;
-  }
-
-  .flex-child {
-    box-sizing: border-box;
-    margin-right: 1em;
-    width: calc(50% - 0.5em)
-  }
-
-  .flex-child-two-third {
-    width: calc(66.66% - 1em);
-  }
-
-  .flex-child-third {
-    width: calc(33.33% - 1em);
-  }
-
-  .flex-child:last-child {
-    margin-right: 0;
-  }
-}
-
-@media screen and (min-width: 60em) {
-  .hide-lg {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 60em) {
-  .hide-sm {
-    display: none;
-  }
 }

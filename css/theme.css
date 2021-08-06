@@ -1,13 +1,9 @@
-h2 {
-  margin-bottom: var(--line-height-h2);
+h1, h2, h3, h4, h5, h6 {
+  font-size: var(--font-size-body);
 }
 
-h3 {
-  margin-bottom: var(--line-height-h3);
-}
-
-h4, h5, h6 {
-  margin-bottom: var(--line-height-h4);
+h2, h3, h4, h5, h6 {
+  margin-bottom: var(--line-height-body);
 }
 
 @font-face {
@@ -96,7 +92,7 @@ pre, code {
 }
 
 pre {
-  margin-bottom: 1em;
+  margin-bottom: var(--line-height-body);
   background-color: #eee;
   padding: 0.5em;
   overflow: auto;
@@ -134,10 +130,6 @@ button:active, input[type="button"]:active, a.button:active {
   font-variant-caps: normal;
 }
 
-.material-icons.favorite {
-  color: #ff19df;
-}
-
 button .material-icons, a.button .material-icons {
   margin-right: 8px;
 }
@@ -150,29 +142,6 @@ button .material-icons, a.button .material-icons {
 /* math */
 .katex {
   font-size: 1em;
-}
-
-/* tags */
-ul.tags li:before {
-  content: '#';
-  margin-right: 0;
-  color: #999;
-}
-
-ul.tags {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-ul.tags li {
-  font-family: var(--type-display);
-  display: flex;
-  background-color: rgba(0,0,0,0.12);
-  border-radius: var(--border-radius);
-  padding: 0 8px;
-  margin-right: 8px;
-  margin-bottom: 8px;
 }
 
 /* color-scheme */
