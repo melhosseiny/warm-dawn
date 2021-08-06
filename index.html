@@ -87,7 +87,23 @@
       import { toast } from "https://busy-dog-44.deno.dev/melhosseiny/aurora/main/src/toast/toast.js";
 
       import { toc } from "/components/toc.js";
-      import { contact_dialog } from "/components/contact_dialog.js";
+
+      let dm_me;
+
+      if (window.HTMLDialogElement) {
+        const { contact_dialog } = await import("/components/contact_dialog.js");
+        console.log(document.querySelector('#contact-btn'));
+        dm_me = () => {
+          console.log("show_dialog");
+          console.log(document.querySelector('#contact-dialog').component.show());
+        }
+      } else {
+        document.querySelector("#contact-dialog").style.display = "none";
+        dm_me = () => {
+          alert("You can email me at <email>.");
+        }
+      }
+      document.querySelector('#contact-btn').addEventListener("click", dm_me);
 
       try {
         ["ad-progress", "ad-toast", "wd-toc", "wd-contact-dialog"].forEach(element => {
@@ -96,13 +112,6 @@
           }
         });
       } catch (error) {}
-
-      const show_dialog = () => {
-        console.log("show_dialog");
-        console.log(document.querySelector('#contact-dialog').component.show());
-      }
-      console.log(document.querySelector('#contact-btn'));
-      document.querySelector('#contact-btn').addEventListener("click", show_dialog);
     </script>
   </body>
 </html>
