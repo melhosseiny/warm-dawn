@@ -131,7 +131,7 @@ const RAW_PATHNAME_PREFIX = "/melhosseiny/warm-dawn/raw/main";
 const ext = (pathname) => `.${pathname.split(".").pop()}`;
 const content_type = (pathname) => MEDIA_TYPES[ext(pathname)];
 
-const static_path = ["/components", "/css", "/fonts", "/utils", "/favicon.ico", "/robots.txt", "/manifest.webmanifest"];
+const static_path = ["/components", "/css", "/fonts", "/icons", "/utils", "/favicon.ico", "/robots.txt", "/manifest.webmanifest"];
 
 addEventListener("fetch", async (event) => {
   let { pathname } = new URL(event.request.url);
