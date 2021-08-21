@@ -1,12 +1,3 @@
-header {
-  background-color: var(--primary-color);
-}
-
-html {
-  display: flex;
-  flex-direction: column;
-}
-
 body {
   display: flex;
   flex-direction: column;
@@ -34,39 +25,19 @@ header {
   header {
     flex-basis: 38.2%;
     border-bottom: 0;
-    /* border-right: 1px solid rgba(0,0,0,0.2); */
   }
 }
 
-header h1, header h2 {
+/* header h1, header h2 {
   font-weight: normal;
   margin-top: 0;
-}
+} */
 
 header hgroup h1 {
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-bottom: var(--line-height-body);
-}
-
-header hgroup h1 a.base {
-  color: rgb(var(--text-color));
-  font-weight: bold;
-  text-decoration: none;
-}
-
-header .logo {
-  display: block;
-  width: var(--line-height-body);
-  height: var(--line-height-body);
-  margin-right: 8px;
-  background: linear-gradient(to bottom,
-    #f57335 25%,
-    hsla(19, 91%, 63%, 1) 25%, hsla(19, 91%, 63%, 1) 40%,
-    hsla(19, 91%, 68%, 1) 40%, hsla(19, 91%, 68%, 1) 50%,
-    hsla(19, 91%, 73%, 1) 40%, hsla(19, 91%, 73%,1) 75%,
-    hsla(19, 91%, 78%, 1) 75%);
 }
 
 header p {
@@ -94,8 +65,9 @@ main {
   flex-grow: 1;
   flex-basis: auto;
   padding: 1em;
+  padding-top: calc(1em + 2 * var(--line-height-body));
   box-sizing: border-box;
-  min-width: 0; /* to contain pre */
+  /*min-width: 0;*/ /* to contain pre */
 }
 
 @media screen and (min-width: 60em) {
@@ -104,10 +76,6 @@ main {
     flex-basis: 61.8%;
     /* justify-content: center; */
   }
-}
-
-wd-toc {
-  margin-top: calc(2 * var(--line-height-body));
 }
 
 footer {

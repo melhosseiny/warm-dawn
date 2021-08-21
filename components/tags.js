@@ -1,9 +1,9 @@
 import { html, state, web_component, define_component } from "https://busy-dog-44.deno.dev/melhosseiny/sourdough/main/sourdough.js";
 
 const template = (data) => html`
-  <ul part="tags" class="tags">
+  <ul ref="tags" part="tags" class="tags">
     ${ data.tags
-      ? JSON.parse(data.tags).map((tag) => `
+      ? data.tags.map((tag) => `
           <li part="tag">${tag}</li>
       `).join('') : ''
     }
@@ -39,12 +39,15 @@ export function tags(spec) {
   const _web_component = web_component(spec);
   const _state = _web_component.state;
 
-  const init = () => {}
+  const init = () => {
+    _state.tags = _root.textContent.split(' ').map(tag => tag.substring(1));
+  }
 
   const effects = () => {}
 
   return Object.freeze({
-    ..._web_component
+    ..._web_component,
+    init
   })
 }
 
@@ -52,6 +55,5 @@ define_component({
   name: "wd-tags",
   component: tags,
   template,
-  style,
-  props: [ "tags" ]
+  style
 });

@@ -4,6 +4,7 @@ import { Transform } from "/utils/transform.js";
 import katex from "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.mjs";
 import renderMathInElement from "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.mjs";
 
+//const ASSET_HOST = 'http://localhost:4507';
 const ASSET_HOST = 'https://important-deer-81.deno.dev';
 
 const reader = new commonmark.Parser();
@@ -60,6 +61,24 @@ Go back to the [homepage](/).
 `
 
 const style = `
+  /* figures */
+  figure {
+    margin-bottom: 1em;
+  }
+
+  figure.centered {
+    text-align: center;
+  }
+
+  figure.centered img {
+    margin: 0 auto;
+  }
+
+  figure.framed {
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 1px;
+  }
+
   .portfolio figure.framed {
     border: 0;
   }
@@ -67,6 +86,28 @@ const style = `
   .portfolio figure.framed img {
     background: #eee;
     padding: 1em;
+  }
+
+  figure figcaption {
+    font-family: var(--type-display);
+    color: #666;
+  }
+
+  /* blockquote */
+  blockquote p {
+    color: rgba(var(--text-color), 0.6);
+  }
+
+  /* pre */
+  pre, code {
+    font-family: var(--type-mono);
+  }
+
+  pre {
+    margin-bottom: var(--line-height-body);
+    background-color: #eee;
+    padding: 0.5em;
+    overflow: auto;
   }
 
   article {
@@ -81,6 +122,11 @@ const style = `
 
   .material-icons {
     vertical-align: bottom;
+  }
+
+  .float-right {
+    float: right;
+    margin-left: 1em;
   }
 
   /* dirty flex */
@@ -139,6 +185,43 @@ const style = `
       margin-right: 0;
     }
   }
+
+  /* math */
+  .katex {
+    font-size: 1em;
+  }
+
+  /* color-scheme */
+  ul.color-scheme {
+    font-family: var(--type-display);
+    display: flex;
+    flex-direction: column;
+  }
+
+  ul.color-scheme li {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.5em;
+    border: 1px solid rgba(0,0,0,.12);
+    box-sizing: border-box;
+    height: 100px;
+  }
+
+  ul.color-scheme li .meta {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  ul.color-scheme li:before {
+    content: none;
+  }
+
+  /* glitch embeds */
+  .glitch-embed-wrap {
+    margin-bottom: 1em;
+  }
 `
 
 export function note(spec) {
@@ -156,7 +239,7 @@ export function note(spec) {
       _state.markup = writer.render(parse_markdown(note));
     } catch (error) {
       console.log(error);
-      document.title = "Mostafa Elshamy - " + error;
+      document.title = `${error} - Mostafa Elshamy`;
       _state.markup = writer.render(parse_markdown(md_404(error)));
     } finally {
       document.querySelector('#progress').component.hide();

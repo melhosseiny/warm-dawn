@@ -5,15 +5,15 @@ const template = (data) => html`
     <form id="contact-form" action="" method="">
       <div>
         <label for="name">Name</label>
-        <input name="name" required>
+        <input id="name" name="name" required>
       </div>
       <div>
         <label for="email">E-mail</label>
-        <input name="email" type=email required>
+        <input id="email" name="email" type=email required>
       </div>
       <div>
         <label for="message">Message</label>
-        <textarea name="message" cols="10" required></textarea>
+        <textarea id="message" name="message" cols="10" required></textarea>
       </div>
     </form>
     <footer>

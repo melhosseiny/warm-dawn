@@ -19,7 +19,7 @@ const loadPage = async function(page) {
       break;
     default:
       const note = await import("/components/note.js");
-      document.title = "Mostafa Elshamy - " + toTitleCase(page);
+      document.title = `${toTitleCase(page)} - Mostafa Elshamy`;
       document.querySelector("#main").innerHTML = `<wd-note id="${ page }"></wd-note>`;
   }
 }

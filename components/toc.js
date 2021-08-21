@@ -1,21 +1,36 @@
 import { html, state, web_component, define_component } from "https://busy-dog-44.deno.dev/melhosseiny/sourdough/main/sourdough.js";
 import { tags } from "/components/tags.js";
 
+//const ASSET_HOST = 'http://localhost:4507';
 const ASSET_HOST = 'https://important-deer-81.deno.dev';
+const PAGE_SIZE = 10;
+
+const format_date = (datetime) => {
+  const datetime_format = new Intl.DateTimeFormat("en-US", {  year: "numeric", month: "short", day: "numeric" });
+  const date = new Date(datetime);
+  return datetime_format.format(date);
+}
 
 const template = (data) => html`
-  <ul ref="notes" class="toc">
-    ${ data.notes
-      ? data.notes.map((note) => `
-        <li data-date="${note.time_from}">
-          <a href="/${note.id}">${note.name}</a>
-          <time>${note.time_from}</time>
-          <wd-tags tags='${JSON.stringify(note.tags)}'></wd-tags>
-        </li>
-      `).join('') : ''
+  <div ref="page">
+    <ul class="toc">
+      ${ data.page && data.page.notes
+        ? data.page.notes.map((note) => `
+          <li>
+            <a href="/${note.id}">${note.name}</a>
+            <time datetime="${note.time}">${format_date(note.time)}</time>
+            ${ note.tags ? `<wd-tags ref="tags">${note.tags.map(tag => `#${tag}`).join(' ')}</wd-tags>` : '' }
+          </li>
+        `).join('') : ''
+      }
+    </ul>
+    ${ data.page && data.page.has_more
+      ? `<a id="more" class="button" href="#">Older notes <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg></a>`
+      : ''
     }
-  </ul>
+  </div>
 `
+console.log(template({notes: [], cursor: "fsdfsd", has_more: true}));
 
 const style = `
   .toc > li {
@@ -58,6 +73,10 @@ const style = `
     color: #666;
     padding-right: 0.5em;
   }
+
+  #more .material-icons {
+    margin-right: 0;
+  }
 `
 
 export function toc(spec) {
@@ -66,17 +85,50 @@ export function toc(spec) {
   const _state = _web_component.state;
 
   const fetch_notes = async () => {
-    const response = await fetch(`${ASSET_HOST}/notes.json`);
-    _state.notes = await response.json();
+    const response = await fetch(`${ASSET_HOST}/index.json?page_size=${PAGE_SIZE}`);
+    _state.page = await response.json();
+    console.log("_state", _state);
+  }
+
+  const fetch_more_notes = async (after) => {
+    const response = await fetch(`${ASSET_HOST}/index.json?page_size=${PAGE_SIZE}&after=${after}`);
+    const fetched_notes = _state.page.notes;
+    const page = await response.json();
+    _state.page = {
+      ...page,
+      notes: [...fetched_notes, ...page.notes]
+    }
+    console.log("_state", _state);
   }
 
   const init = () => {
     fetch_notes();
   }
 
+  const handle_fetch_more = (event) => {
+    event.preventDefault();
+    fetch_more_notes(_state.page.cursor);
+  }
+
+  const effects = () => {
+    const more_btn = _root.shadowRoot.querySelector('#more');
+    if (more_btn) {
+      more_btn.addEventListener("click", handle_fetch_more);
+    }
+  }
+
+  const cleanup_effects = () => {
+    const more_btn = _root.shadowRoot.querySelector('#more');
+    if (more_btn) {
+      more_btn.removeEventListener("click", handle_fetch_more);
+    }
+  }
+
   return Object.freeze({
     ..._web_component,
-    init
+    init,
+    effects,
+    cleanup_effects
   })
 }
 

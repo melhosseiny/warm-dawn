@@ -19,6 +19,7 @@
     <script type="module">
       import { set_shared_style_sheets } from "https://busy-dog-44.deno.dev/melhosseiny/sourdough/main/sourdough.js";
       const document_style_sheets = [...document.styleSheets].slice(0,4);
+      console.log(document_style_sheets);
       set_shared_style_sheets(document_style_sheets);
     </script>
   </head>
@@ -29,7 +30,7 @@
     <header>
       <hgroup>
         <h1 class="type--body">
-          <div class="logo"></div>
+          <span class="logo"></span>
           <a class="base" href="/">warm-dawn</a>
         </h1>
       </hgroup>
@@ -43,15 +44,15 @@
           <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
           DM me
         </button>
-        <a class="button" href="https://github.com/melhosseiny" target="_blank" target="_blank" rel="noreferrer">
+        <a class="button" href="https://github.com/melhosseiny" target="_blank" rel="noreferrer">
           <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
           Follow me on Github
         </a>
-        <a class="button" href="https://www.linkedin.com/in/mostafa-elshamy" target="_blank" target="_blank" rel="noreferrer">
+        <a class="button" href="https://www.linkedin.com/in/mostafa-elshamy" target="_blank" rel="noreferrer">
           <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M14 6V4h-4v2h4zM4 8v11h16V8H4zm16-2c1.11 0 2 .89 2 2v11c0 1.11-.89 2-2 2H4c-1.11 0-2-.89-2-2l.01-11c0-1.11.88-2 1.99-2h4V4c0-1.11.89-2 2-2h4c1.11 0 2 .89 2 2v2h4z"/></svg>
           Connect on LinkedIn
         </a>
-        <a class="button" href="https://scholar.google.com/citations?user=T-icgGMAAAAJ&hl=en" target="_blank" target="_blank" rel="noreferrer">
+        <a class="button" href="https://scholar.google.com/citations?user=T-icgGMAAAAJ&hl=en" target="_blank" rel="noreferrer">
           <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/><path d="M4 9h16v2H4zm0 4h10v2H4z"/></svg>
           Publications
         </a>
@@ -68,13 +69,15 @@
           <img alt="Creative Commons License" style="border-width:0;" width="80" height="15" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png">
         </a>
         <small>
-          Maintained by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Mostafa Elshamy</span> under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0 License</a>
+          Maintained by Mostafa Elshamy under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0 License</a>
         </small>
       </div>
     </footer>
-
     <script type="module">
       import { set_shared_style_sheets, get_constructed_style_sheet } from "https://busy-dog-44.deno.dev/melhosseiny/sourdough/main/sourdough.js";
+
+      const document_style_sheets = [...document.styleSheets].slice(0,4);
+      set_shared_style_sheets(document_style_sheets);
 
       let document_constructed_sheets;
       try {
@@ -99,7 +102,7 @@
       } else {
         document.querySelector("#contact-dialog").style.display = "none";
         dm_me = () => {
-          alert("You can email me at <email>.");
+          document.querySelector('#toast').component.display("Feature not supported in this browser.");
         }
       }
       document.querySelector('#contact-btn').addEventListener("click", dm_me);

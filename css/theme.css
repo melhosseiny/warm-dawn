@@ -1,4 +1,24 @@
+header a.base {
+  color: rgb(var(--text-color));
+  font-weight: bold;
+  text-decoration: none;
+}
+
+header .logo {
+  display: block;
+  width: var(--line-height-body);
+  height: var(--line-height-body);
+  margin-right: 8px;
+  background: linear-gradient(to bottom,
+    #f57335 25%,
+    hsla(19, 91%, 63%, 1) 25%, hsla(19, 91%, 63%, 1) 40%,
+    hsla(19, 91%, 68%, 1) 40%, hsla(19, 91%, 68%, 1) 50%,
+    hsla(19, 91%, 73%, 1) 40%, hsla(19, 91%, 73%,1) 75%,
+    hsla(19, 91%, 78%, 1) 75%);
+}
+
 h1, h2, h3, h4, h5, h6 {
+  font-family: var(--type-display);
   font-size: var(--font-size-body);
 }
 
@@ -38,10 +58,6 @@ h2, h3, h4, h5, h6 {
   --text-decoration-color: 0, 208, 193;
 }
 
-header, footer {
-  font-family: var(--type-display);
-}
-
 /* Hyperlinks: LVFHA */
 a, a:link, a:visited, a:hover, a:active {
   text-decoration: underline;
@@ -56,46 +72,6 @@ a:visited {
 a:hover, a:active {
   color: rgb(var(--accent-color));
   text-decoration-color: rgb(var(--accent-color));
-}
-
-/* figures */
-figure {
-  margin-bottom: 1em;
-}
-
-figure.centered {
-  text-align: center;
-}
-
-figure.centered img {
-  margin: 0 auto;
-}
-
-figure.framed {
-  border: 1px solid rgba(0,0,0,0.12);
-  border-radius: 1px;
-}
-
-figure figcaption {
-  font-family: var(--type-display);
-  color: #666;
-}
-
-/* blockquote */
-blockquote p {
-  color: rgba(var(--text-color), 0.6);
-}
-
-/* pre */
-pre, code {
-  font-family: var(--type-mono);
-}
-
-pre {
-  margin-bottom: var(--line-height-body);
-  background-color: #eee;
-  padding: 0.5em;
-  overflow: auto;
 }
 
 /* buttons */
@@ -132,41 +108,4 @@ button:active, input[type="button"]:active, a.button:active {
 
 button .material-icons, a.button .material-icons {
   margin-right: 8px;
-}
-
-/* glitch embeds */
-.glitch-embed-wrap {
-  margin-bottom: 1em;
-}
-
-/* math */
-.katex {
-  font-size: 1em;
-}
-
-/* color-scheme */
-ul.color-scheme {
-  font-family: var(--type-display);
-  display: flex;
-  flex-direction: column;
-}
-
-ul.color-scheme li {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 0.5em;
-  border: 1px solid rgba(0,0,0,.12);
-  box-sizing: border-box;
-  height: 100px;
-}
-
-ul.color-scheme li .meta {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-ul.color-scheme li:before {
-  content: none;
 }
