@@ -99,6 +99,13 @@ button:active, input[type="button"]:active, a.button:active {
   background-color: rgba(0, 0, 0, var(--opacity-active));
 }
 
+@media screen and (max-width: 60em) {
+  button, input[type="button"], a.button {
+    padding: 0 16px;
+    height: calc(2 * var(--line-height-body));
+  }
+}
+
 /* icons */
 .material-icons {
   vertical-align: middle;

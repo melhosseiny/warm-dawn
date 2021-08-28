@@ -136,12 +136,14 @@ const static_path = ["/components", "/css", "/fonts", "/icons", "/utils", "/favi
 addEventListener("fetch", async (event) => {
   let { pathname } = new URL(event.request.url);
 
-  pathname = pathname === "/" ? "/index.html" : pathname;
+  pathname = pathname === "/" ? "/index_inline.html" : pathname;
   console.log(event.request.url, pathname, PATHNAME_PREFIX, import.meta.url);
 
-  const url = static_path.some(prefix => pathname.startsWith(prefix))
-    ? new URL(PATHNAME_PREFIX + pathname, import.meta.url)
-    : new URL(PATHNAME_PREFIX + "/index.html", import.meta.url)
+  const url =  import.meta.url.startsWith("file")
+    ? new URL(pathname, "http://localhost:8081")
+    : static_path.some(prefix => pathname.startsWith(prefix))
+      ? new URL(PATHNAME_PREFIX + pathname, import.meta.url)
+      : new URL(PATHNAME_PREFIX + "/index_inline.html", import.meta.url);
 
   console.log(url.href);
 

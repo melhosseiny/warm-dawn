@@ -4,8 +4,8 @@ import { Transform } from "/utils/transform.js";
 import katex from "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.mjs";
 import renderMathInElement from "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.mjs";
 
-//const ASSET_HOST = 'http://localhost:4507';
-const ASSET_HOST = 'https://important-deer-81.deno.dev';
+//const ASSET_HOST = "http://localhost:4507";
+const ASSET_HOST = "https://important-deer-81.deno.dev";
 
 const reader = new commonmark.Parser();
 const writer = new commonmark.HtmlRenderer();
@@ -124,9 +124,11 @@ const style = `
     vertical-align: bottom;
   }
 
-  .float-right {
-    float: right;
-    margin-left: 1em;
+  @media screen and (min-width: 30em) {
+    .float-right {
+      float: right;
+      margin-left: 1em;
+    }
   }
 
   /* dirty flex */

@@ -1,8 +1,8 @@
 import { html, state, web_component, define_component } from "https://busy-dog-44.deno.dev/melhosseiny/sourdough/main/sourdough.js";
 import { tags } from "/components/tags.js";
 
-//const ASSET_HOST = 'http://localhost:4507';
-const ASSET_HOST = 'https://important-deer-81.deno.dev';
+// const ASSET_HOST = "http://localhost:4507";
+const ASSET_HOST = "https://important-deer-81.deno.dev";
 const PAGE_SIZE = 10;
 
 const format_date = (datetime) => {
@@ -21,11 +21,13 @@ const template = (data) => html`
             <time datetime="${note.time}">${format_date(note.time)}</time>
             ${ note.tags ? `<wd-tags ref="tags">${note.tags.map(tag => `#${tag}`).join(' ')}</wd-tags>` : '' }
           </li>
-        `).join('') : ''
+        `).join('') : `
+          <p>No notes yet!</p>
+        `
       }
     </ul>
     ${ data.page && data.page.has_more
-      ? `<a id="more" class="button" href="#">Older notes <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg></a>`
+      ? `<a id="more" class="button" href="#">Older notes <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M24 24H0V0h24v24z" fill="none" opacity=".87"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z"/></svg></a>`
       : ''
     }
   </div>
