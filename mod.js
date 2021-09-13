@@ -139,10 +139,12 @@ addEventListener("fetch", async (event) => {
   pathname = pathname === "/" ? "/index_inline.html" : pathname;
   console.log(event.request.url, pathname, PATHNAME_PREFIX, import.meta.url);
 
-  const url =  import.meta.url.startsWith("file")
-    ? new URL(pathname, "http://localhost:8081")
-    : static_path.some(prefix => pathname.startsWith(prefix))
-      ? new URL(PATHNAME_PREFIX + pathname, import.meta.url)
+  const url = static_path.some(prefix => pathname.startsWith(prefix))
+    ? import.meta.url.startsWith("file")
+      ? new URL(pathname, "http://localhost:8081")
+      : new URL(PATHNAME_PREFIX + pathname, import.meta.url)
+    : import.meta.url.startsWith("file")
+      ? new URL("/index_inline.html", "http://localhost:8081")
       : new URL(PATHNAME_PREFIX + "/index_inline.html", import.meta.url);
 
   console.log(url.href);
