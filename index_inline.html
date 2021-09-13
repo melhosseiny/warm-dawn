@@ -22,6 +22,11 @@
 </style>
     <style>body{display:flex;flex-direction:column;align-items:stretch;min-height:100vh;flex-wrap:wrap}@media screen and (min-width: 60em){body{flex-direction:row}}header{display:flex;flex-direction:column;flex:0 0 auto;padding:1em;border-bottom:1px solid rgba(0,0,0,.2);box-sizing:border-box}@media screen and (min-width: 60em){header{flex-basis:38.2%;border-bottom:0}}header hgroup h1{display:flex;flex-direction:row;align-items:center;margin-bottom:var(--line-height-body)}header p{max-width:24em}header .actions{display:flex;flex-direction:column;align-items:flex-start}header .actions button,header .actions a.button{margin-bottom:.5em}.license{display:flex;flex-direction:column}main{display:flex;flex-direction:column;flex-grow:1;flex-basis:auto;padding:1em;padding-top:calc(1em + 2 * var(--line-height-body));box-sizing:border-box}@media screen and (min-width: 60em){main{min-height:calc(100vh - 40px - 2em);flex-basis:61.8%}}@media screen and (max-width: 60em){main{width:100%}}footer{padding:1em;width:100vw;box-sizing:border-box}
 </style>
+    <script type="module">
+      import { set_shared_style_sheets } from "https://busy-dog-44.deno.dev/melhosseiny/sourdough/main/sourdough.js";
+      const document_style_sheets = [...document.styleSheets].slice(0,4);
+      set_shared_style_sheets(document_style_sheets);
+    </script>
   </head>
   <body>
     <ad-progress id="progress"></ad-progress>
@@ -103,10 +108,9 @@
       </div>
     </footer>
     <script type="module">
-      import { set_shared_style_sheets, get_constructed_style_sheet } from "https://busy-dog-44.deno.dev/melhosseiny/sourdough/main/sourdough.js";
+      import { get_constructed_style_sheet } from "https://busy-dog-44.deno.dev/melhosseiny/sourdough/main/sourdough.js";
 
       const document_style_sheets = [...document.styleSheets].slice(0,4);
-      set_shared_style_sheets(document_style_sheets);
 
       let document_constructed_sheets;
       try {
