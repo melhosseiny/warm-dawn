@@ -1,5 +1,4 @@
 # warm-dawn
 
-Special topics in computer science
-
-    deno run --allow-net --allow-read webserver.js
+    file_server . -p 8081 --cors
+    deployctl run mod.js
