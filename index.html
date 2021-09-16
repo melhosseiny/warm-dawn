@@ -118,14 +118,14 @@
 
       import { progress } from "https://busy-dog-44.deno.dev/melhosseiny/aurora/main/src/progress/progress.js";
       import { toast } from "https://busy-dog-44.deno.dev/melhosseiny/aurora/main/src/toast/toast.js";
-      import { contact_dialog } from "/components/contact_dialog.js";
       import { toc } from "/components/toc.js";
 
       let dm_me;
 
       if (window.HTMLDialogElement) {
         console.log(document.querySelector('#contact-btn'));
-        dm_me = () => {
+        dm_me = async () => {
+          const { contact_dialog } = await import("/components/contact_dialog.js");
           console.log("show_dialog");
           console.log(document.querySelector('#contact-dialog').component.show());
         }

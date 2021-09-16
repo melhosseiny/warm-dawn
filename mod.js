@@ -157,7 +157,8 @@ addEventListener("fetch", async (event) => {
 
   const headers = new Headers({
     "content-type": content_type(pathname),
-    "access-control-allow-origin": "*"
+    "access-control-allow-origin": "*",
+    "cache-control": "no-cache"
   });
 
   event.respondWith(new Response(res.body, {

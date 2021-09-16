@@ -101,8 +101,7 @@ button:active, input[type="button"]:active, a.button:active {
 
 @media screen and (max-width: 60em) {
   button, input[type="button"], a.button {
-    padding: 0 16px;
-    height: calc(2 * var(--line-height-body));
+    height: calc(1.5 * var(--line-height-body));
   }
 }
 

@@ -1,8 +1,7 @@
 import { html, state, web_component, define_component } from "https://busy-dog-44.deno.dev/melhosseiny/sourdough/main/sourdough.js";
-import "https://unpkg.com/commonmark@0.30.0/dist/commonmark.js";
+import "https://unpkg.com/commonmark@0.30.0/dist/commonmark.min.js";
 import { Transform } from "/utils/transform.js";
-import katex from "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.mjs";
-import renderMathInElement from "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.mjs";
+let katex, renderMathInElement;
 
 //const ASSET_HOST = "http://localhost:4507";
 const ASSET_HOST = "https://important-deer-81.deno.dev";
@@ -49,7 +48,7 @@ const template = (data) => html`
   <article ref="markup" class="${data.id}">
     ${ data.markup }
   </article>
-  <style>@import "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css";</style>
+  ${ data.has_math ? '<style>@import "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css";</style>' : '' }
 `
 
 const md_404 = (error) => `
@@ -234,6 +233,15 @@ export function note(spec) {
   const fetch_note = async () => {
     try {
       document.querySelector('#progress').component.show();
+      const has_math_response = await fetch(`${ASSET_HOST}/has_math?id=${spec.id}`);
+      const has_math = await has_math_response.text();
+
+      if (has_math === "true") {
+        katex = (await import("https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.mjs")).default;
+        renderMathInElement = (await import("https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.mjs")).default;
+        _state.has_math = true;
+      }
+
       const response = await fetch(`${ASSET_HOST}/${spec.id}.md`);
       if (response.status === 404) { throw 'Page not found' }
       const note = await response.text();
@@ -253,7 +261,9 @@ export function note(spec) {
   }
 
   const effects = () => {
-    renderMathInElement(_root.shadowRoot);
+    if (_state.has_math) {
+      renderMathInElement(_root.shadowRoot);
+    }
   }
 
   return Object.freeze({
