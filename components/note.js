@@ -1,7 +1,6 @@
 import { html, state, web_component, define_component } from "https://busy-dog-44.deno.dev/melhosseiny/sourdough/main/sourdough.js";
 import "https://unpkg.com/commonmark@0.30.0/dist/commonmark.min.js";
 import { Transform } from "/utils/transform.js";
-let katex, renderMathInElement;
 
 //const ASSET_HOST = "http://localhost:4507";
 const ASSET_HOST = "https://important-deer-81.deno.dev";
@@ -48,7 +47,6 @@ const template = (data) => html`
   <article ref="markup" class="${data.id}">
     ${ data.markup }
   </article>
-  ${ data.has_math ? '<style>@import "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css";</style>' : '' }
 `
 
 const md_404 = (error) => `
@@ -233,20 +231,23 @@ export function note(spec) {
   const fetch_note = async () => {
     try {
       document.querySelector('#progress').component.show();
+
       const has_math_response = await fetch(`${ASSET_HOST}/has_math?id=${spec.id}`);
       const has_math = await has_math_response.text();
-
-      if (has_math === "true") {
-        katex = (await import("https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.mjs")).default;
-        renderMathInElement = (await import("https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.mjs")).default;
-        _state.has_math = true;
-      }
 
       const response = await fetch(`${ASSET_HOST}/${spec.id}.md`);
       if (response.status === 404) { throw 'Page not found' }
       const note = await response.text();
 
       _state.markup = writer.render(parse_markdown(note));
+      if (has_math === "true") {
+        const katex = (await import("https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.mjs")).default;
+        const renderMathInElement = (await import("https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.mjs")).default;
+        const style_el = document.createElement("style");
+        style_el.innerHTML = '@import "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css"';
+        _root.shadowRoot.appendChild(style_el);
+        renderMathInElement(_root.shadowRoot);
+      }
     } catch (error) {
       console.log(error);
       document.title = `${error} - Mostafa Elshamy`;
@@ -260,16 +261,9 @@ export function note(spec) {
     fetch_note();
   }
 
-  const effects = () => {
-    if (_state.has_math) {
-      renderMathInElement(_root.shadowRoot);
-    }
-  }
-
   return Object.freeze({
     ..._web_component,
-    init,
-    effects
+    init
   })
 }
 
