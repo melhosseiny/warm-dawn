@@ -1,3 +1,5 @@
+import { serve } from "https://deno.land/std@0.115.1/http/server.ts";
+
 const MEDIA_TYPES = {
   ".md": "text/markdown",
   ".html": "text/html",
@@ -127,33 +129,34 @@ const MEDIA_TYPES = {
 };
 
 const PATHNAME_PREFIX = "/melhosseiny/warm-dawn/main";
-const RAW_PATHNAME_PREFIX = "/melhosseiny/warm-dawn/raw/main";
 const ext = (pathname) => `.${pathname.split(".").pop()}`;
 const content_type = (pathname) => MEDIA_TYPES[ext(pathname)];
 
-const static_path = ["/components", "/css", "/fonts", "/icons", "/utils", "/favicon.ico", "/robots.txt", "/manifest.webmanifest"];
+const static_path = [
+  "/components",
+  "/css",
+  "/fonts",
+  "/icons",
+  "/utils",
+  "/favicon.ico",
+  "/robots.txt",
+  "/manifest.webmanifest"
+];
 
-addEventListener("fetch", async (event) => {
-  let { pathname } = new URL(event.request.url);
+serve(async (request) => {
+  let { pathname } = new URL(request.url);
 
   pathname = pathname === "/" ? "/index_inline.html" : pathname;
-  console.log(event.request.url, pathname, PATHNAME_PREFIX, import.meta.url);
+  console.log(request.url, pathname, PATHNAME_PREFIX, import.meta.url);
 
-  const url = static_path.some(prefix => pathname.startsWith(prefix))
-    ? import.meta.url.startsWith("file")
-      ? new URL(pathname, "http://localhost:8081")
-      : new URL(PATHNAME_PREFIX + pathname, import.meta.url)
-    : import.meta.url.startsWith("file")
-      ? new URL("/index_inline.html", "http://localhost:8081")
-      : new URL(PATHNAME_PREFIX + "/index_inline.html", import.meta.url);
-
-  console.log(url.href);
-
-  const res = await fetch(url, {
-    headers: {
-      "Authorization": `token ${Deno.env.get("GITHUB_ACCESS_TOKEN")}`,
-    },
-  });
+  let response_body = static_path.some(prefix => pathname.startsWith(prefix))
+    // ? await Deno.readFile(`.${pathname}`)
+    ? (await fetch(new URL(PATHNAME_PREFIX + pathname, "https://raw.githubusercontent.com/"), {
+      headers: {
+        "Authorization": `token ${Deno.env.get("GITHUB_ACCESS_TOKEN")}`,
+      },
+    })).body
+    : await Deno.readFile('./index_inline.html');
 
   const headers = new Headers({
     "content-type": content_type(pathname),
@@ -161,8 +164,8 @@ addEventListener("fetch", async (event) => {
     "cache-control": "no-cache"
   });
 
-  event.respondWith(new Response(res.body, {
+  return new Response(response_body, {
     status: 200,
     headers
-  }));
+  });
 });
