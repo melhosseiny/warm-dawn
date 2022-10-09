@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: warm-dawn.deno.dev
+Token: 5b064c841f92c9561b5c24be1030a557acd53f5b977d4b2085f9766fa0505f0d

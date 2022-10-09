@@ -11,7 +11,8 @@ const static_path = [
   "/utils",
   "/favicon.ico",
   "/robots.txt",
-  "/manifest.webmanifest"
+  "/manifest.webmanifest",
+  "/.well-known"
 ];
 
 serve(async (request) => {
