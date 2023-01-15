@@ -1,5 +1,5 @@
-import { serve } from "https://deno.land/std@0.115.1/http/server.ts";
-import { content_type } from "https://raw.githubusercontent.com/melhosseiny/git-fetch/main/media_types.js";
+import { serve } from "https://deno.land/std@0.170.0/http/server.ts";
+import { content_type } from "media_types";
 
 const PATHNAME_PREFIX = "/melhosseiny/warm-dawn/main";
 
@@ -22,12 +22,12 @@ serve(async (request) => {
   console.log(request.url, pathname, PATHNAME_PREFIX, import.meta.url);
 
   let response_body = static_path.some(prefix => pathname.startsWith(prefix))
-    // ? await Deno.readFile(`.${pathname}`)
-    ? (await fetch(new URL(PATHNAME_PREFIX + pathname, "https://raw.githubusercontent.com/"), {
-      headers: {
-        "Authorization": `token ${Deno.env.get("GITHUB_ACCESS_TOKEN")}`,
-      },
-    })).body
+    ? await Deno.readFile(`.${pathname}`)
+//    ? (await fetch(new URL(PATHNAME_PREFIX + pathname, "https://raw.githubusercontent.com/"), {
+//      headers: {
+//        "Authorization": `token ${Deno.env.get("GITHUB_ACCESS_TOKEN")}`,
+//      },
+//    })).body
     : await Deno.readFile('./index_inline.html');
 
   const headers = new Headers({
