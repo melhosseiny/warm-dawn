@@ -2,6 +2,8 @@ import { html, state, web_component, define_component } from "https://busy-dog-4
 import "https://unpkg.com/commonmark@0.30.0/dist/commonmark.min.js";
 import { Transform } from "/utils/transform.js";
 
+import { note_comments } from "/components/note_comments.js";
+
 //const ASSET_HOST = "http://localhost:4507";
 const ASSET_HOST = "https://important-deer-81.deno.dev";
 
@@ -46,6 +48,7 @@ const parse_markdown = function(markdown) {
 const template = (data) => html`
   <article ref="markup" class="${data.id}">
     ${ data.markup }
+    <wd-note-comments id="${data.id}"></wd-note-comments>
   </article>
 `
 
