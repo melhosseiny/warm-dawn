@@ -73,14 +73,14 @@ export function note_comments(spec) {
 
   const fetch_note_comments = async () => {
     try {
-      const response = await fetch(`${ASSET_HOST}/comment/${spec.id}.json`);
+      const response = await fetch(`${ASSET_HOST}/comment?id=${spec.id}`, {
+        cache: "no-cache"
+      });
       if (response.status === 404) { throw 'No comments found' }
       const note_comments = await response.json();
       _state.comments = note_comments;
     } catch (error) {
       console.log(error);
-    } finally {
-      //
     }
   }
 
