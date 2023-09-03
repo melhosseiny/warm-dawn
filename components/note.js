@@ -7,6 +7,14 @@ import { note_comments } from "/components/note_comments.js";
 //const ASSET_HOST = "http://localhost:4507";
 const ASSET_HOST = "https://important-deer-81.deno.dev";
 
+const BLACKLISTED_IDS = [
+  "about",
+  "bookshelf",
+  "refer",
+  "type_specimen",
+  "lazy"
+]
+
 const reader = new commonmark.Parser();
 const writer = new commonmark.HtmlRenderer();
 const transform = Transform();
@@ -48,7 +56,7 @@ const parse_markdown = function(markdown) {
 const template = (data) => html`
   <article ref="markup" class="${data.id}">
     ${ data.markup }
-    <wd-note-comments id="${data.id}"></wd-note-comments>
+    ${ BLACKLISTED_IDS.includes(data.id) ? '' : `<wd-note-comments id="${data.id}"></wd-note-comments>` }
   </article>
 `
 
