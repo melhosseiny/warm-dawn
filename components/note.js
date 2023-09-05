@@ -54,9 +54,14 @@ const parse_markdown = function(markdown) {
 }
 
 const template = (data) => html`
-  <article ref="markup" class="${data.id}">
+  <article ref="markup lang" class="${data.id}" lang="${data.lang}" ${ data.lang === "ar" ? `dir="rtl"` : ''}>
+    <select id="lang-selector">
+      <option value="en" ${ data.lang === "en" ? "selected" : ''}>en</option>
+      <option value="no" ${ data.lang === "no" ? "selected" : ''}>no</option>
+      <option value="ar" ${ data.lang === "ar" ? "selected" : ''}>ar</option>
+    </select>
     ${ data.markup }
-    ${ BLACKLISTED_IDS.includes(data.id) ? '' : `<wd-note-comments id="${data.id}"></wd-note-comments>` }
+    ${ BLACKLISTED_IDS.includes(data.id) ? '' : `<wd-note-comments id="${data.id}" lang="en" dir="ltr"></wd-note-comments>` }
   </article>
 `
 
@@ -68,7 +73,31 @@ ${error}.
 Go back to the [homepage](/).
 `
 
+const md_404_no = (error) => `
+# Øh, noe gikk galt
+
+${error}.
+
+Gå tilbake til [hjemmesiden](/).
+`
+
+const md_404_ar = (error) => `
+# حدث خطأ
+
+${error}.
+
+عد إلي [الصفحة الرئيسية](/).
+`
+
 const style = `
+  #lang-selector {
+    float: right;
+  }
+
+  #lang-selector:lang(ar) {
+    float: left;
+  }
+
   /* figures */
   figure {
     margin-bottom: 1em;
@@ -136,6 +165,11 @@ const style = `
     .float-right {
       float: right;
       margin-left: 1em;
+    }
+
+    .float-left {
+      float: left;
+      margin-right: 1em;
     }
   }
 
@@ -239,14 +273,14 @@ export function note(spec) {
   const _web_component = web_component(spec);
   const _state = _web_component.state;
 
-  const fetch_note = async () => {
+  const fetch_note = async (lang = '') => {
     try {
       document.querySelector('#progress').component.show();
 
       const has_math_response = await fetch(`${ASSET_HOST}/has_math?id=${spec.id}`);
       const has_math = await has_math_response.text();
 
-      const response = await fetch(`${ASSET_HOST}/${spec.id}.md`);
+      const response = await fetch(`${ASSET_HOST}/${spec.id}${lang}.md`);
       if (response.status === 404) { throw 'Page not found' }
       const note = await response.text();
 
@@ -262,7 +296,16 @@ export function note(spec) {
     } catch (error) {
       console.log(error);
       document.title = `${error} - Mostafa Elshamy`;
-      _state.markup = writer.render(parse_markdown(md_404(error)));
+      switch (_state.lang) {
+        case "no":
+          _state.markup = writer.render(parse_markdown(md_404_no(error)));
+          break;
+        case "ar":
+          _state.markup = writer.render(parse_markdown(md_404_ar(error)));
+          break;
+        default:
+          _state.markup = writer.render(parse_markdown(md_404(error)));
+      }
     } finally {
       document.querySelector('#progress').component.hide();
     }
@@ -272,9 +315,25 @@ export function note(spec) {
     fetch_note();
   }
 
+  const effects = () => {
+    const lang_selector = _root.shadowRoot.querySelector("#lang-selector");
+    if (lang_selector) {
+      lang_selector.onchange = (event) => {
+        const lang = event.target.value;
+        _state.lang = lang;
+        if (lang === "en") {
+          fetch_note();
+        } else {
+          fetch_note('.' + lang);
+        }
+      }
+    }
+  }
+
   return Object.freeze({
     ..._web_component,
-    init
+    init,
+    effects
   })
 }
 

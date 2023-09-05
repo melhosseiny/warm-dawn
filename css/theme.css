@@ -41,6 +41,13 @@ h2, h3, h4, h5, h6 {
 }
 
 @font-face {
+  font-family: "SF Ar";
+  src: url('/fonts/sf-ar_regular.woff2') format('woff2');
+  font-weight: normal;
+  font-display: fallback;
+}
+
+@font-face {
   font-family: "Cascadia Code";
   src: url('/fonts/CascadiaCode.woff2') format('woff2');
   font-display: fallback;
@@ -48,8 +55,8 @@ h2, h3, h4, h5, h6 {
 
 :root {
   --type-mono: "Cascadia Code", monospace;
-  --type-display: "SF Pro Display", sans-serif;
-  --type-body: "SF Pro Text", sans-serif;
+  --type-display: "SF Pro Display", "SF Ar", sans-serif;
+  --type-body: "SF Pro Text", "SF Ar", sans-serif;
   --background-color: 255, 255, 255;
   --text-color: 37, 37, 36;
   --primary-color: transparent;
