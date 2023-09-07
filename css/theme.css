@@ -10,11 +10,11 @@ header .logo {
   height: var(--line-height-body);
   margin-right: 8px;
   background: linear-gradient(to bottom,
-    #f57335 25%,
-    hsla(19, 91%, 63%, 1) 25%, hsla(19, 91%, 63%, 1) 40%,
-    hsla(19, 91%, 68%, 1) 40%, hsla(19, 91%, 68%, 1) 50%,
-    hsla(19, 91%, 73%, 1) 40%, hsla(19, 91%, 73%,1) 75%,
-    hsla(19, 91%, 78%, 1) 75%);
+    hsla(249, 18%, 51%, 1) 25%,
+    hsla(249, 18%, 63%, 1) 25%, hsla(249, 18%, 63%, 1) 40%,
+    hsla(249, 18%, 68%, 1) 40%, hsla(249, 18%, 68%, 1) 50%,
+    hsla(249, 18%, 73%, 1) 40%, hsla(249, 18%, 73%,1) 75%,
+    hsla(249, 18%, 78%, 1) 75%);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -60,8 +60,8 @@ h2, h3, h4, h5, h6 {
   --background-color: 255, 255, 255;
   --text-color: 37, 37, 36;
   --primary-color: transparent;
-  --accent-color: 33, 129, 177;
-  --border-radius: 0;
+  --accent-color: 45, 112, 171;
+  --border-radius: 3px;
   --text-decoration-color: 0, 208, 193;
 }
 

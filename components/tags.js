@@ -14,7 +14,7 @@ const style = `
   ul.tags li:before {
     content: '#';
     margin-right: 0;
-    color: #999;
+    color: hsla(158, 75%, 44%, 1);
   }
 
   ul.tags {
@@ -25,10 +25,12 @@ const style = `
 
   ul.tags li {
     font-family: var(--type-display);
+    font-size: 14px;
     display: flex;
-    background-color: rgba(0,0,0,0.12);
+    background-color: rgb(20, 146, 101);
+    color: rgb(var(--background-color));
     border-radius: var(--border-radius);
-    padding: 0 8px;
+    padding: 0 6px;
     margin-right: 8px;
     margin-bottom: 8px;
   }

@@ -47,6 +47,7 @@ const style = `
     text-overflow: ellipsis;
     flex-direction: row;
     width: 100%;
+    text-decoration: none;
   }
 
   .toc > li:before {
@@ -63,9 +64,6 @@ const style = `
   }
 
   wd-tags::part(tag) {
-    color: #666;
-    background-color: rgba(0, 0, 0, 0);
-    padding: 0;
     margin-right: 6px;
     margin-bottom: 0;
   }
@@ -73,6 +71,7 @@ const style = `
   .toc time {
     display: inline-block;
     color: #666;
+    font-size: 14px;
     padding-right: 0.5em;
   }
 

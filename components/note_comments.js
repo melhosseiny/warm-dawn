@@ -30,7 +30,7 @@ const template = (data) => html`
 const style = `
   p {
     margin-bottom: 0;
-    font-size: smaller;
+    font-size: 14px;
   }
 
   p time {
@@ -51,13 +51,14 @@ const style = `
     flex: 1;
     box-sizing: border-box;
     border: 0;
+    border-radius: var(--border-radius);
     resize: none;
     font-family: var(--type-body), sans-serif;
+    font-size: 14px;
   }
 
   #add-comment-form textarea:focus {
-    outline: none;
-    background-color: #e0ffff;
+    outline-color: rgb(var(--accent-color));
   }
 
   #add-comment-form button {
