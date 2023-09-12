@@ -48,13 +48,14 @@ h2, h3, h4, h5, h6 {
 }
 
 @font-face {
-  font-family: "Cascadia Code";
-  src: url('/fonts/CascadiaCode.woff2') format('woff2');
+  font-family: "SF Mono";
+  src: url('/fonts/sf-mono_regular.woff') format('woff');
+  font-weight: normal;
   font-display: fallback;
 }
 
 :root {
-  --type-mono: "Cascadia Code", monospace;
+  --type-mono: "SF Mono", monospace;
   --type-display: "SF Pro Display", "SF Ar", sans-serif;
   --type-body: "SF Pro Text", "SF Ar", sans-serif;
   --background-color: 255, 255, 255;
