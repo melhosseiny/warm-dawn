@@ -65,7 +65,6 @@ const style = `
 
   wd-tags::part(tag) {
     margin-right: 6px;
-    margin-bottom: 0;
   }
 
   .toc time {

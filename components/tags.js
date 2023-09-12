@@ -32,7 +32,7 @@ const style = `
     border-radius: var(--border-radius);
     padding: 0 6px;
     margin-right: 8px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
   }
 `
 

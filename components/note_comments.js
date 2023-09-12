@@ -19,11 +19,13 @@ const template = (data) => html`
       </p>
       `).join('') : ''
     }
-    <form id="add-comment-form" action="" method="">
-      <label for="comment">Message</label>
-      <textarea id="comment" name="comment" placeholder="Add a comment..." maxlength="140" required></textarea>
-      <button type="submit" id="submit-btn">Post</button>
-    </form>
+    ${ data.noteloaded === 'true'
+      ? `<form id="add-comment-form" action="" method="">
+        <label for="comment">Message</label>
+        <textarea id="comment" name="comment" placeholder="Add a comment..." maxlength="140" required></textarea>
+        <button type="submit" id="submit-btn">Post</button>
+      </form>` : ''
+    }
   </div>
 `
 
@@ -129,6 +131,6 @@ define_component({
   component: note_comments,
   template,
   style,
-  props: ["id"]
+  props: ["id", "noteloaded"]
 });
 

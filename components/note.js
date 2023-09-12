@@ -61,7 +61,7 @@ const template = (data) => html`
       <option value="ar" ${ data.lang === "ar" ? "selected" : ''}>ar</option>
     </select>
     ${ data.markup }
-    ${ BLACKLISTED_IDS.includes(data.id) ? '' : `<wd-note-comments id="${data.id}" lang="en" dir="ltr"></wd-note-comments>` }
+    ${ BLACKLISTED_IDS.includes(data.id) ? '' : `<wd-note-comments id="${data.id}" noteloaded="${data.markup !== undefined}" lang="en" dir="ltr"></wd-note-comments>` }
   </article>
 `
 
