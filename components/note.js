@@ -1,6 +1,5 @@
 import { html, state, web_component, define_component } from "https://busy-dog-44.deno.dev/melhosseiny/sourdough/main/sourdough.js";
 import "https://unpkg.com/commonmark@0.30.0/dist/commonmark.min.js";
-import { Transform } from "/utils/transform.js";
 
 import { note_comments } from "/components/note_comments.js";
 
@@ -17,39 +16,9 @@ const BLACKLISTED_IDS = [
 
 const reader = new commonmark.Parser();
 const writer = new commonmark.HtmlRenderer();
-const transform = Transform();
 
 const parse_markdown = function(markdown) {
   let parsed = reader.parse(markdown);
-  var walker = parsed.walker();
-  let event, node;
-  let imgCount = 0;
-
-  while ((event = walker.next())) {
-    node = event.node;
-
-    if (event.entering) {
-      // console.log('imgCount', imgCount);
-      const loading = imgCount > 0 ? "lazy" : "auto";
-      switch (node.type) {
-        case 'html_block':
-          if (node._htmlBlockType !== 2) {
-            if (node.literal.indexOf('img') !== -1) {
-              transform.imgInHtmlBlock(node, loading, ASSET_HOST);
-            } else if (node.literal.indexOf('video') !== -1) {
-              transform.videoInHtmlBlock(node, loading, ASSET_HOST);
-            }
-            imgCount++;
-          }
-          break;
-        case 'image':
-          transform.imgNode(node, loading, ASSET_HOST);
-          imgCount++;
-          break;
-      }
-    }
-  }
-
   return parsed;
 }
 
@@ -280,18 +249,15 @@ export function note(spec) {
       const has_math_response = await fetch(`${ASSET_HOST}/has_math?id=${spec.id}`);
       const has_math = await has_math_response.text();
 
-      const response = await fetch(`${ASSET_HOST}/${spec.id}${lang}.md`);
+      const response = await fetch(`${ASSET_HOST}/${spec.id}${lang}.html`);
       if (response.status === 404) { throw 'Page not found' }
       const note = await response.text();
 
-      _state.markup = writer.render(parse_markdown(note));
+      _state.markup = note;
       if (has_math === "true") {
-        const katex = (await import("https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.mjs")).default;
-        const renderMathInElement = (await import("https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.mjs")).default;
         const style_el = document.createElement("style");
         style_el.innerHTML = '@import "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css"';
         _root.shadowRoot.appendChild(style_el);
-        renderMathInElement(_root.shadowRoot);
       }
     } catch (error) {
       console.log(error);
