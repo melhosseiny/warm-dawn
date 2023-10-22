@@ -1,31 +1,3 @@
-header a.base {
-  color: rgb(var(--text-color));
-  font-weight: bold;
-  text-decoration: none;
-}
-
-header .logo {
-  display: block;
-  width: var(--line-height-body);
-  height: var(--line-height-body);
-  margin-right: 8px;
-  background: linear-gradient(to bottom,
-    hsla(249, 18%, 51%, 1) 25%,
-    hsla(249, 18%, 63%, 1) 25%, hsla(249, 18%, 63%, 1) 40%,
-    hsla(249, 18%, 68%, 1) 40%, hsla(249, 18%, 68%, 1) 50%,
-    hsla(249, 18%, 73%, 1) 40%, hsla(249, 18%, 73%,1) 75%,
-    hsla(249, 18%, 78%, 1) 75%);
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--type-display);
-  font-size: var(--font-size-body);
-}
-
-h2, h3, h4, h5, h6 {
-  margin-bottom: var(--line-height-body);
-}
-
 @font-face {
   font-family: "SF Pro Display";
   src: url('/fonts/sf-pro-text_regular.woff2') format('woff2');
@@ -70,7 +42,7 @@ h2, h3, h4, h5, h6 {
 a, a:link, a:visited, a:hover, a:active {
   text-decoration: underline;
   text-decoration-color: rgba(var(--accent-color), 1);
-  transition: color 0.5s ease, text-decoration-color 0.5s ease;
+  transition: none;
 }
 
 a:visited {
@@ -82,15 +54,59 @@ a:hover, a:active {
   text-decoration-color: rgb(var(--accent-color));
 }
 
+/* headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--type-display);
+  font-size: var(--font-size-body);
+}
+
+h2, h3, h4, h5, h6 {
+  margin-bottom: var(--line-height-body);
+}
+
+/* header */
+header a.base {
+  color: rgb(var(--text-color));
+  font-weight: bold;
+  text-decoration: none;
+}
+
+header .logo {
+  display: block;
+  width: var(--line-height-body);
+  height: var(--line-height-body);
+  margin-right: 8px;
+  background: linear-gradient(to bottom,
+    hsla(249, 18%, 51%, 1) 25%,
+    hsla(249, 18%, 63%, 1) 25%, hsla(249, 18%, 63%, 1) 40%,
+    hsla(249, 18%, 68%, 1) 40%, hsla(249, 18%, 68%, 1) 50%,
+    hsla(249, 18%, 73%, 1) 40%, hsla(249, 18%, 73%,1) 75%,
+    hsla(249, 18%, 78%, 1) 75%);
+  border-radius: var(--border-radius);
+}
+
+header h1 a + a, header h1 a + a:link, header h1 a + a:visited {
+  color: rgba(0,0,0,.2);
+  display: flex;
+  align-items: center;
+}
+
+header h1 a + a:hover, header h1 a + a:active {
+  color: rgb(var(--accent-color));
+  display: inline-flex;
+  align-items: center;
+}
+
 /* buttons */
 button, input[type="button"], a.button {
   --button-color: 255, 255, 255;
-  --opacity-hover: 0.12;
+  --opacity-hover: 1;
   --opacity-active: 0.24;
   align-items: center;
   margin-bottom: 0.5em;
+  padding-bottom: 2px;
   font-family: var(--type-display);
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1.5px solid rgba(0, 0, 0, 0.2);
   text-decoration: none;
   border-radius: 4px;
 
@@ -99,11 +115,13 @@ button, input[type="button"], a.button {
 }
 
 button:hover, input[type="button"]:hover, a.button:hover {
-  color: rgb(var(--text-color));
-  background-color: rgba(0, 0, 0, var(--opacity-hover));
+  background-color: rgba(var(--text-color), var(--opacity-hover));
+  color: rgb(var(--background-color));
+  transition: none;
 }
 
 button:active, input[type="button"]:active, a.button:active {
+  color: rgb(var(--background-color));
   background-color: rgba(0, 0, 0, var(--opacity-active));
 }
 
@@ -114,12 +132,16 @@ button:active, input[type="button"]:active, a.button:active {
 }
 
 /* icons */
-.material-icons {
-  vertical-align: middle;
+.symbol {
   width: var(--font-size-body);
-  font-variant-caps: normal;
+  max-height: var(--font-size-body);
+  padding-top: 2px;
 }
 
-button .material-icons, a.button .material-icons {
-  margin-right: 8px;
+button .symbol, a.button .symbol {
+  margin-right: 4px;
+}
+
+header h1 .symbol {
+  margin-left: 4px;
 }

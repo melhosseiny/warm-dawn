@@ -13,9 +13,23 @@ const format_date = (datetime) => {
 
 const template = (data) => html`
   <div ref="page">
+    ${ data.page && data.page.notes ?
+      `<a class="button teaser" href="/${data.page.notes[0].id}">
+        <ad-card title="${data.page.notes[0].name}" subtitle="${format_date(data.page.notes[0].time)}">
+          ${ data.page.notes[0].img ?
+            `<picture slot="media">
+              <source srcset="${data.page.notes[0].img}" type="image/webp">
+              <img src="${data.page.notes[0].img}" alt="alt text">
+            </picture>` : '' }
+          <div slot="actions">
+            ${ data.page.notes[0].tags ? `<wd-tags ref="tags">${data.page.notes[0].tags.map(tag => `#${tag}`).join(' ')}</wd-tags>` : '' }
+          </div>
+        </ad-card>
+      </a>` : ''
+    }
     <ul class="toc">
       ${ data.page && data.page.notes
-        ? data.page.notes.map((note) => `
+        ? data.page.notes.slice(1).map((note) => `
           <li>
             <a href="/${note.id}">${note.name}</a>
             <time datetime="${note.time}">${format_date(note.time)}</time>
@@ -35,6 +49,20 @@ const template = (data) => html`
 console.log(template({notes: [], cursor: "fsdfsd", has_more: true}));
 
 const style = `
+  a.button.teaser {
+    height: auto;
+    width: 100%;
+    margin-bottom: 1em;
+    font-variant-caps: normal;
+  }
+
+  ad-card {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
   .toc > li {
     display: flex;
     flex-direction: row;
@@ -67,11 +95,15 @@ const style = `
     margin-right: 6px;
   }
 
-  .toc time {
+  .toc time, ad-card::part(subtitle) {
     display: inline-block;
     color: #666;
     font-size: 14px;
     padding-right: 0.5em;
+  }
+
+  a:hover ad-card::part(subtitle) {
+    color: rgba(255,255,255,0.6);
   }
 
   #more .material-icons {
