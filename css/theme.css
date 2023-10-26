@@ -1,27 +1,27 @@
 @font-face {
   font-family: "SF Pro Display";
-  src: url('/fonts/sf-pro-text_regular.woff2') format('woff2');
+  src: url('https://early-fox-61.deno.dev/sf-pro-text_regular.woff2') format('woff2');
   font-weight: normal;
   font-display: fallback;
 }
 
 @font-face {
   font-family: "SF Pro Text";
-  src: url('/fonts/sf-pro-text_regular.woff2') format('woff2');
+  src: url('https://early-fox-61.deno.dev/sf-pro-text_regular.woff2') format('woff2');
   font-weight: normal;
   font-display: fallback;
 }
 
 @font-face {
   font-family: "SF Ar";
-  src: url('/fonts/sf-ar_regular.woff2') format('woff2');
+  src: url('https://early-fox-61.deno.dev/sf-ar_regular.woff2') format('woff2');
   font-weight: normal;
   font-display: fallback;
 }
 
 @font-face {
   font-family: "SF Mono";
-  src: url('/fonts/sf-mono_regular.woff') format('woff');
+  src: url('https://early-fox-61.deno.dev/sf-mono_regular.woff') format('woff');
   font-weight: normal;
   font-display: fallback;
 }
