@@ -63,6 +63,10 @@ const style = `
     margin-bottom: 8px;
   }
 
+  .toc {
+    padding-left: 0;
+  }
+
   .toc > li {
     display: flex;
     flex-direction: row;
