@@ -21,6 +21,7 @@ const style = `
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    padding-left: 0;
   }
 
   ul.tags li {
