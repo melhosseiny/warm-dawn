@@ -15,7 +15,7 @@ const template = (data) => html`
   <div ref="page">
     ${ data.page && data.page.notes ?
       `<a class="button teaser" href="/${data.page.notes[0].id}">
-        <ad-card title="${data.page.notes[0].name}" subtitle="${format_date(data.page.notes[0].time)}">
+        <ad-card title-label="${data.page.notes[0].name}" subtitle-label="${format_date(data.page.notes[0].time)}">
           ${ data.page.notes[0].img ?
             `<picture slot="media">
               <source srcset="${data.page.notes[0].img}" type="image/webp">
