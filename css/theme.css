@@ -118,7 +118,7 @@ header a.base {
 }
 
 header .logo {
-  background-image: url(//localhost:4507/img/about/hero-clouds_sm.webp);
+  background-image: url(https://important-deer-81.deno.dev/img/about/hero-clouds_sm.webp);
   background-position: center;
   background-size: cover;
   border-radius: 50%;
