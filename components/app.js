@@ -8,7 +8,15 @@ const toTitleCase = function(s) {
 const handleNavigation = function(location) {
   const path = decodeURIComponent(location.pathname);
   const page = path === '/' ? 'index' : path.slice(1);
-  loadPage(page);
+  
+  // Fallback for browsers that don't support this API:
+  if (!document.startViewTransition) {
+    loadPage(page);
+    return;
+  }
+
+  // With a transition:
+  document.startViewTransition(() => loadPage(page));
 };
 
 const loadPage = async function(page) {

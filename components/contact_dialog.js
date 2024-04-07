@@ -27,12 +27,27 @@ const style = `
   dialog {
     font-family: var(--type-body);
     padding: 0;
-    border: 1px solid rgba(0,0,0,0.12);
+    box-shadow: 3px 3px rgba(0,0,0,0.1);
+    border: 0 none;
     min-width: 280px;
     max-width: 560px;
     left: 50%;
     right: auto;
     transform: translate(-50%, 0);
+    transition: opacity 1s ease-in-out;
+  }
+
+  dialog[open]::backdrop {
+    animation: backdrop-fade 1s ease forwards;
+  }
+
+  @keyframes backdrop-fade {
+    from {
+      background: transparent;
+    }
+    to {
+      background: rgba(0,0,0,0.1);
+    }
   }
 
   dialog header {
@@ -50,33 +65,15 @@ const style = `
     padding: 0.5em;
   }
 
-  dialog button {
-    background-color: rgba(0,0,0,0.12);
-    border: 1px solid rgba(0,0,0,0.12);
-  }
-
-  dialog button:hover {
-    background-color: rgba(0,0,0,0.2);
-  }
-
-  dialog + .backdrop {
-    position: fixed;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    background: rgba(0, 0, 0, 0.1);
-  }
-
   input, textarea {
     font-family: var(--type-body), sans-serif;
     font-size: 1rem;
     width: 100%;
     box-sizing: border-box;
-    border: 0;
-    border-bottom: 1px solid rgba(0,0,0,0.12);
-    background-color: transparent;
-    padding: 8px 0;
+    background-color: rgba(0,0,0,0.1);
+    border: 0 none;
+    border-radius: var(--border-radius);
+    padding: 8px 4px;
     margin-bottom: 0.5em;
     transition: border-color 0.3s linear;
   }
@@ -88,7 +85,6 @@ const style = `
 
   input:focus, textarea:focus {
     outline: none;
-    border-bottom: 2px solid rgb(var(--accent-color));
   }
 `
 

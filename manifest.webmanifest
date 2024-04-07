@@ -1,19 +1,17 @@
 {
-  "short_name": "Warm dawn",
-  "name": "Warm dawn",
-  "description": "Sun rises over freezing moon",
+  "short_name": "Mostafa Elshamy",
+  "name": "Mostafa Elshamy",
+  "description": "Creating magical web experiences, a blog.",
   "icons": [
     {
       "src": "/icons/icon-192.png",
       "type": "image/png",
-      "sizes": "192x192",
-      "purpose": "any maskable"
+      "sizes": "192x192"
     },
     {
       "src": "/icons/icon-512.png",
       "type": "image/png",
-      "sizes": "512x512",
-      "purpose": "any maskable"
+      "sizes": "512x512"
     }
   ],
   "start_url": "/",

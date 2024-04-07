@@ -11,12 +11,6 @@ const template = (data) => html`
 `
 
 const style = `
-  ul.tags li:before {
-    content: '#';
-    margin-right: 0;
-    color: hsla(158, 75%, 44%, 1);
-  }
-
   ul.tags {
     display: flex;
     flex-direction: row;
@@ -25,15 +19,33 @@ const style = `
   }
 
   ul.tags li {
-    font-family: var(--type-display);
-    font-size: 14px;
+    font-family: var(--type-mono);
+    font-size: 13px;
+    letter-spacing: -0.5px;
     display: flex;
-    background-color: rgb(20, 146, 101);
-    color: rgb(var(--background-color));
+    color: var(--amethyst);
     border-radius: var(--border-radius);
-    padding: 0 6px;
-    margin-right: 8px;
     margin-bottom: 4px;
+  }
+
+  ul.tags li + li {
+    margin-left: 6px;
+  }
+
+  ul.tags li:first-child {
+    background-color: var(--amethyst);
+    color: oklch(from var(--amethyst) calc(l + .6) c h);
+    padding: 0 6px;
+  }
+
+  ul.tags li:before {
+    content: '#';
+    margin-right: 0;
+  }
+
+  ul.tags li:first-child:before {
+    background-color: var(--amethyst);
+    color: oklch(from var(--amethyst) calc(l + .6) c h);
   }
 `
 

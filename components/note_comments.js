@@ -78,6 +78,7 @@ export function note_comments(spec) {
       const response = await fetch(`${ASSET_HOST}/comment?id=${spec.id}`, {
         cache: "no-cache"
       });
+      console.log(response);
       if (response.status === 404) { throw 'No comments found' }
       const note_comments = await response.json();
       _state.comments = note_comments;
@@ -94,7 +95,9 @@ export function note_comments(spec) {
     const submit_button = _root.shadowRoot.querySelector('#submit-btn');
     const add_comment_form = _root.shadowRoot.querySelector("#add-comment-form");
 
-    submit_button.addEventListener("click", (event) => { submit(event, add_comment_form) });
+    if (submit_button) {
+      submit_button.addEventListener("click", (event) => { submit(event, add_comment_form) });
+    }
   }
 
   const submit = (event, form) => {

@@ -12,91 +12,143 @@ const format_date = (datetime) => {
 }
 
 const template = (data) => html`
-  <div ref="page">
+  <div class="toc" ref="page">
     ${ data.page && data.page.notes ?
-      `<a class="button teaser" href="/${data.page.notes[0].id}">
-        <ad-card title-label="${data.page.notes[0].name}" subtitle-label="${format_date(data.page.notes[0].time)}">
-          ${ data.page.notes[0].img ?
-            `<picture slot="media">
-              <source srcset="${data.page.notes[0].img}" type="image/webp">
-              <img src="${data.page.notes[0].img}" alt="alt text">
-            </picture>` : '' }
-          <div slot="actions">
-            ${ data.page.notes[0].tags ? `<wd-tags ref="tags">${data.page.notes[0].tags.map(tag => `#${tag}`).join(' ')}</wd-tags>` : '' }
-          </div>
-        </ad-card>
-      </a>` : ''
-    }
-    <ul class="toc">
-      ${ data.page && data.page.notes
-        ? data.page.notes.slice(1).map((note) => `
-          <li>
-            <a href="/${note.id}">${note.name}</a>
-            <time datetime="${note.time}">${format_date(note.time)}</time>
-            ${ note.tags ? `<wd-tags ref="tags">${note.tags.map(tag => `#${tag}`).join(' ')}</wd-tags>` : '' }
-          </li>
-        `).join('') : `
+      data.page.notes.slice().map((note) =>
+        `<a class="teaser" href="/${note.id}">
+          <ad-card title-label="${note.name}" subtitle-label="<time datetime='${note.time}'>${format_date(note.time)}</time>">
+            ${ note.img && !note.img.startsWith("text:") ?
+              `<picture slot="media">
+                <source media="(max-width: 320px)" srcset="${ASSET_HOST}/${note.img.replace(".webp", "_sm.webp")}">
+                <source media="(max-width: 480px)" srcset="${ASSET_HOST}/${note.img.replace(".webp", "_md.webp")}">
+                <source media="(max-width: 720px)" srcset="${ASSET_HOST}/${note.img.replace(".webp", "_lg.webp")}">
+                <img src="${ASSET_HOST}/${note.img}" alt="">
+              </picture>` : `<div class="fake-picture" slot="media">
+                <div class="fake-img">${note.img ? note.img.split(':')[1] : ''}</div>
+              </div>`
+            }
+            ${ note.summary ? `<p slot="text">${note.summary}</p>` : ''}
+            <div slot="actions">
+              ${ data.page.notes[0].tags ? `<wd-tags ref="tags">${note.tags.map(tag => `#${tag}`).join(' ')}</wd-tags>` : '' }
+            </div>
+          </ad-card>
+        </a>`).join('') : `
           <p>No notes yet!</p>
         `
-      }
-    </ul>
+    }
     ${ data.page && data.page.has_more
-      ? `<a id="more" class="button" href="#">Older notes <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M24 24H0V0h24v24z" fill="none" opacity=".87"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z"/></svg></a>`
+      ? `<a id="more" class="button" href="#">Older notes
+          <svg class="symbol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.252 11.2207">
+           <g>
+            <rect height="11.2207" opacity="0" width="18.252" x="0" y="0"/>
+            <path d="M8.9502 11.2207C9.43848 11.2158 9.83887 11.0352 10.2295 10.6445L17.4463 3.25195C17.7441 2.9541 17.8906 2.60254 17.8906 2.17773C17.8906 1.30859 17.1924 0.605469 16.3379 0.605469C15.9131 0.605469 15.5127 0.776367 15.1953 1.10352L8.55957 7.9541L9.35547 7.9541L2.7002 1.10352C2.38281 0.786133 1.9873 0.605469 1.55273 0.605469C0.693359 0.605469 0 1.30859 0 2.17773C0 2.59766 0.151367 2.94922 0.439453 3.25684L7.66602 10.6445C8.06641 11.0449 8.46191 11.2207 8.9502 11.2207Z" fill="currentColor" fill-opacity="0.85"/>
+           </g>
+          </svg>
+        </a>`
       : ''
     }
   </div>
 `
-console.log(template({notes: [], cursor: "fsdfsd", has_more: true}));
 
 const style = `
-  a.button.teaser {
-    height: auto;
-    width: 100%;
-    margin-bottom: 1em;
-    font-variant-caps: normal;
+  :host {
+    max-width: 38em;
+  }
+
+  a.teaser, a.teaser:link, a.teaser:visited, a.teaser:hover, a.teaser:active {
+    display: block;
+    text-decoration: none;
   }
 
   ad-card {
     display: block;
     width: 100%;
-    margin-top: 8px;
-    margin-bottom: 8px;
+  }
+
+  ad-card picture, .fake-picture {
+    border-radius: 6px;
+  }
+
+  ad-card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: transform 400ms cubic-bezier(0.4, 0, 0.25, 1) 0ms, opacity 1s cubic-bezier(0.4, 0, 0.25, 1) 0ms;
+  }
+
+  ad-card::part(title) {
+    font-family: "SF Pro Display";
+    font-weight: bold;
+    white-space: normal;
+  }
+
+  ad-card::part(text) {
+    font-weight: 300;
+  }
+
+  .fake-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(90deg, var(--malachite), oklch(from var(--malachite) calc(l + .3) c h));
+    color: white;
+    border-radius: calc(2 * var(--border-radius));
+    text-shadow: var(--malachite) 1px 0 20px;
+    transition: transform 400ms cubic-bezier(0.4, 0, 0.25, 1) 0ms, opacity 1s cubic-bezier(0.4, 0, 0.25, 1) 0ms;
+  }
+
+  a.teaser:hover ad-card img {
+    transform: scale(1.03);
+  }
+  a.teaser:hover ad-card .fake-img {
+    transform: scale(1.1);
   }
 
   .toc {
     padding-left: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-flow: dense;
+    grid-gap: 30px;
+  }
+  
+  @media screen and (max-width: 30em) {
+    .toc {
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
 
-  .toc > li {
-    display: flex;
-    flex-direction: row;
-    flex-flow: wrap;
-    margin-bottom: 1em;
-  }
+  @media screen and (min-width: 30em) {
+    .toc > :first-child {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
 
-  .toc > li > a {
-    flex-grow: 1;
-    text-overflow: ellipsis;
-    flex-direction: row;
-    width: 100%;
-    text-decoration: none;
-  }
+    .toc > :nth-child(2) ad-card::part(title), .toc > :nth-child(3) ad-card::part(title) {
+      white-space: normal;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;  ;
+      -webkit-line-clamp: 2;
+    }
 
-  .toc > li:before {
-    content: none;
-  }
+    .toc > :nth-child(n+10) {
+      grid-column: span 3;
+    }
 
-  .toc > li .for {
-    color: #666;
-    line-clamp: 1;
+    .toc > :nth-child(n+10) picture, .toc > :nth-child(n+10) .fake-picture {
+      display: none;
+    }
+
+    .toc > :nth-child(n+9) figure figcaption header {
+      margin-bottom: 0;
+    }
   }
 
   wd-tags::part(tags) {
     margin-bottom: 0;
-  }
-
-  wd-tags::part(tag) {
-    margin-right: 6px;
   }
 
   .toc time, ad-card::part(subtitle) {
@@ -106,12 +158,10 @@ const style = `
     padding-right: 0.5em;
   }
 
-  a:hover ad-card::part(subtitle) {
-    color: rgba(255,255,255,0.6);
-  }
-
-  #more .material-icons {
+  button .symbol, a.button .symbol {
+    margin-left: 4px;
     margin-right: 0;
+    width: 11px;
   }
 `
 

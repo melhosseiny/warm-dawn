@@ -1,7 +1,21 @@
 @font-face {
   font-family: "SF Pro Display";
-  src: url('https://early-fox-61.deno.dev/sf-pro-text_regular.woff2') format('woff2');
+  src: url('https://early-fox-61.deno.dev/sf-pro-display_regular.woff2') format('woff2');
   font-weight: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "SF Pro Display";
+  src: url('https://early-fox-61.deno.dev/sf-pro-display_bold.woff2') format('woff2');
+  font-weight: bold;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "SF Pro Text";
+  src: url('https://early-fox-61.deno.dev/sf-pro-text_light.woff2') format('woff2');
+  font-weight: 300;
   font-display: fallback;
 }
 
@@ -9,6 +23,28 @@
   font-family: "SF Pro Text";
   src: url('https://early-fox-61.deno.dev/sf-pro-text_regular.woff2') format('woff2');
   font-weight: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "SF Pro Text";
+  src: url('https://early-fox-61.deno.dev/sf-pro-text_regular-italic.woff2') format('woff2');
+  font-weight: normal;
+  font-style: italic;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "SF Pro Text";
+  src: url('https://early-fox-61.deno.dev/sf-pro-text_semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "SF Pro Text";
+  src: url('https://early-fox-61.deno.dev/sf-pro-text_bold.woff2') format('woff2');
+  font-weight: bold;
   font-display: fallback;
 }
 
@@ -26,9 +62,15 @@
   font-display: fallback;
 }
 
+@font-face {
+  font-family: "SF Mono";
+  src: url('https://early-fox-61.deno.dev/sf-mono_bold.woff') format('woff');
+  font-weight: bold;
+  font-display: fallback;
+}
+
 :root {
   --type-mono: "SF Mono", monospace;
-  --type-display: "SF Pro Display", "SF Ar", sans-serif;
   --type-body: "SF Pro Text", "SF Ar", sans-serif;
   --background-color: 255, 255, 255;
   --text-color: 37, 37, 36;
@@ -36,6 +78,10 @@
   --accent-color: 45, 112, 171;
   --border-radius: 3px;
   --text-decoration-color: 0, 208, 193;
+  --amethyst: rgb(116, 109, 155);
+  --malachite: rgb(20, 146, 101);
+  --lapis-lazuli: rgb(45, 112, 171);
+  --rv21: rgb(255,188,206);
 }
 
 /* Hyperlinks: LVFHA */
@@ -56,12 +102,12 @@ a:hover, a:active {
 
 /* headings */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--type-display);
   font-size: var(--font-size-body);
+  margin-bottom: var(--line-height-body);
 }
 
-h2, h3, h4, h5, h6 {
-  margin-bottom: var(--line-height-body);
+h1 {
+  margin-bottom: 0;
 }
 
 /* header */
@@ -72,29 +118,64 @@ header a.base {
 }
 
 header .logo {
-  display: block;
-  width: var(--line-height-body);
-  height: var(--line-height-body);
-  margin-right: 8px;
-  background: linear-gradient(to bottom,
-    hsla(249, 18%, 51%, 1) 25%,
-    hsla(249, 18%, 63%, 1) 25%, hsla(249, 18%, 63%, 1) 40%,
-    hsla(249, 18%, 68%, 1) 40%, hsla(249, 18%, 68%, 1) 50%,
-    hsla(249, 18%, 73%, 1) 40%, hsla(249, 18%, 73%,1) 75%,
-    hsla(249, 18%, 78%, 1) 75%);
-  border-radius: var(--border-radius);
+  background-image: url(//localhost:4507/img/about/hero-clouds_sm.webp);
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
 }
 
-header h1 a + a, header h1 a + a:link, header h1 a + a:visited {
-  color: rgba(0,0,0,.2);
+header .tagline {
+  font-weight: 300;
+  font-size: smaller;
+}
+
+/* header links */
+header #main-links a, header #main-links a:link, header #main-links a:visited {
+  color: rgba(0,0,0,.25);
   display: flex;
   align-items: center;
 }
 
-header h1 a + a:hover, header h1 a + a:active {
-  color: rgb(var(--accent-color));
-  display: inline-flex;
-  align-items: center;
+header #main-links a:hover, header #main-links a:active {
+  color: rgba(var(--accent-color),.8);
+}
+
+header #main-links button {
+  border: 0 none;
+  margin-bottom: 0;
+  color: rgba(0, 0, 0, 0.2);
+  padding: 0;
+}
+
+header #main-links button:hover {
+  background-color: transparent;
+  color: rgba(var(--accent-color),.8);
+}
+
+header #main-links .symbol {
+  padding-top: 0;
+}
+
+@media screen and (max-width: 60em) {
+  header #main-links a, header #main-links a:link, header #main-links a:visited {
+    color: rgba(0,0,0,0.2);
+  }
+
+  header #main-links a, header #main-links button, header #main-links a.button {
+    padding: 8px;
+    height: auto;
+    color: rgba(0,0,0,0.2);
+    border-radius: 50%;
+  }
+  
+  header #main-links a:first-child {
+    padding-left: 0;
+  }
+  
+  header #main-links button:last-child {
+    color: rgba(0, 0, 0, 0.2);
+    background-color: transparent;
+  }
 }
 
 /* buttons */
@@ -105,13 +186,13 @@ button, input[type="button"], a.button {
   align-items: center;
   margin-bottom: 0.5em;
   padding-bottom: 2px;
-  font-family: var(--type-display);
   border: 1.5px solid rgba(0, 0, 0, 0.2);
   text-decoration: none;
   border-radius: 4px;
 
   font-feature-settings: normal;
   font-variant-caps: all-small-caps;
+  gap: 4px;
 }
 
 button:hover, input[type="button"]:hover, a.button:hover {
@@ -138,10 +219,46 @@ button:active, input[type="button"]:active, a.button:active {
   padding-top: 2px;
 }
 
-button .symbol, a.button .symbol {
-  margin-right: 4px;
+/* about */
+@media screen and (min-width: 30em) {
+  .about ad-carousel {
+    margin-bottom: 64px;
+  }
 }
 
-header h1 .symbol {
-  margin-left: 4px;
+
+.about ad-card img, .bookshelf ad-card img {
+  width: 100%;
+}
+
+.about ad-card img {
+  aspect-ratio: 1 / 1;
+}
+
+.about ad-card:not(:first-child) img {
+  object-fit: cover;
+}
+
+.about ad-card svg[slot=thumbnail] {
+  background-color: rgba(0,0,0,0.1);
+}
+
+.about ad-card::part(title), .bookshelf ad-card::part(title) {
+  font-weight: 600;
+}
+
+/* bookshelf */
+.bookshelf ad-card img {
+  aspect-ratio: 1 / 1.5;
+  object-fit: cover;
+  max-height: 200px;
+  border-radius: calc(2*var(--border-radius));
+}
+
+.bookshelf ad-card::part(title), .bookshelf ad-card::part(subtitle) {
+  font-size: 12px;
+}
+
+.bookshelf ad-card::part(subtitle) {
+  font-weight: 300;
 }

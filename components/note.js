@@ -1,5 +1,4 @@
 import { html, state, web_component, define_component } from "https://busy-dog-44.deno.dev/melhosseiny/sourdough/main/sourdough.js";
-import "https://unpkg.com/commonmark@0.30.0/dist/commonmark.min.js";
 
 import { note_comments } from "/components/note_comments.js";
 
@@ -14,17 +13,9 @@ const BLACKLISTED_IDS = [
   "lazy"
 ]
 
-const reader = new commonmark.Parser();
-const writer = new commonmark.HtmlRenderer();
-
-const parse_markdown = function(markdown) {
-  let parsed = reader.parse(markdown);
-  return parsed;
-}
-
 const template = (data) => html`
-  <article ref="markup lang" class="${data.id}" lang="${data.lang}" ${ data.lang === "ar" ? `dir="rtl"` : ''}>
-    <select id="lang-selector">
+  <article part="article" ref="markup lang" class="${data.id}" lang="${data.lang}" ${ data.lang === "ar" ? `dir="rtl"` : ''}>
+    <select id="lang-selector" aria-label="language">
       <option value="en" ${ data.lang === "en" ? "selected" : ''}>en</option>
       <option value="no" ${ data.lang === "no" ? "selected" : ''}>no</option>
       <option value="ar" ${ data.lang === "ar" ? "selected" : ''}>ar</option>
@@ -34,42 +25,51 @@ const template = (data) => html`
   </article>
 `
 
-const md_404 = (error) => `
-# Uh oh
-
-${error}.
-
-Go back to the [homepage](/).
+const html_404 = (error) => `
+  <h1>Uh oh</h1>
+  <p>${error}.</p>
+  <p>Go back to the <a href="/">homepage</a>.</p>
 `
 
-const md_404_no = (error) => `
-# Øh, noe gikk galt
-
-${error}.
-
-Gå tilbake til [hjemmesiden](/).
+const html_404_no = (error) => `
+  <h1>Øh, noe gikk galt</h1>
+  <p>${error}.</p>
+  <p>Gå tilbake til <a href="/">hjemmesiden</a>.</p>
 `
 
-const md_404_ar = (error) => `
-# حدث خطأ
-
-${error}.
-
-عد إلي [الصفحة الرئيسية](/).
+const html_404_ar = (error) => `
+  <h1>حدث خطأ</h1>
+  <p>${error}.</p>
+  <p>عد إلي <a href="/">الصفحة الرئيسية</a>.</p>
 `
 
 const style = `
   #lang-selector {
     float: right;
+    outline: none;
+    font-family: inherit;
+    font-weight: semi-bold;
+    outline: 1.5px solid rgba(0,0,0,.2);
+    border: 0 none;
+    border-radius: var(--border-radius);
   }
 
   #lang-selector:lang(ar) {
     float: left;
   }
 
+  h1 {
+    font-family: "SF Pro Display";
+    font-weight: bold;
+  }
+
   /* figures */
-  figure {
+  figure, ad-carousel, .glitch-embed-wrap, details {
     margin-bottom: 1em;
+  }
+
+  ad-media-grid {
+    margin-bottom: 64px;
   }
 
   figure.centered {
@@ -83,15 +83,6 @@ const style = `
   figure.framed {
     border: 1px solid rgba(0,0,0,0.12);
     border-radius: 1px;
-  }
-
-  .portfolio figure.framed {
-    border: 0;
-  }
-
-  .portfolio figure.framed img {
-    background: #eee;
-    padding: 1em;
   }
 
   figure figcaption {
@@ -126,20 +117,9 @@ const style = `
     box-sizing: border-box;
   }
 
-  .material-icons {
-    vertical-align: bottom;
-  }
-
-  @media screen and (min-width: 30em) {
-    .float-right {
-      float: right;
-      margin-left: 1em;
-    }
-
-    .float-left {
-      float: left;
-      margin-right: 1em;
-    }
+  .qa {
+    column-count: 2;
+    column-gap: 20px;
   }
 
   /* dirty flex */
@@ -169,6 +149,21 @@ const style = `
   }
 
   @media screen and (min-width: 30em) {
+    .qa {
+      column-count: 3;
+      column-gap: 20px;
+    }
+
+    .float-right {
+      float: right;
+      margin-left: 1em;
+    }
+
+    .float-left {
+      float: left;
+      margin-right: 1em;
+    }
+
     .row {
       max-width: 38em;
       display: flex;
@@ -203,38 +198,6 @@ const style = `
   .katex {
     font-size: 1em;
   }
-
-  /* color-scheme */
-  ul.color-scheme {
-    font-family: var(--type-display);
-    display: flex;
-    flex-direction: column;
-  }
-
-  ul.color-scheme li {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 0.5em;
-    border: 1px solid rgba(0,0,0,.12);
-    box-sizing: border-box;
-    height: 100px;
-  }
-
-  ul.color-scheme li .meta {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  ul.color-scheme li:before {
-    content: none;
-  }
-
-  /* glitch embeds */
-  .glitch-embed-wrap {
-    margin-bottom: 1em;
-  }
 `
 
 export function note(spec) {
@@ -264,13 +227,13 @@ export function note(spec) {
       document.title = `${error} - Mostafa Elshamy`;
       switch (_state.lang) {
         case "no":
-          _state.markup = writer.render(parse_markdown(md_404_no(error)));
+          _state.markup = html_404_no(error);
           break;
         case "ar":
-          _state.markup = writer.render(parse_markdown(md_404_ar(error)));
+          _state.markup = html_404_ar(error);
           break;
         default:
-          _state.markup = writer.render(parse_markdown(md_404(error)));
+          _state.markup = html_404(error);
       }
     } finally {
       document.querySelector('#progress').component.hide();
