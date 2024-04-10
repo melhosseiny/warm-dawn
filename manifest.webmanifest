@@ -22,11 +22,11 @@
       "purpose": "any"
     },
     {
-      "src": "/icons/icon-192.png",
+      "src": "/icons/icon-512.png",
       "type": "image/png",
-      "sizes": "192x192",
+      "sizes": "512x512",
       "purpose": "maskable"
-    },
+    }
   ],
   "start_url": "/",
   "display": "standalone",
