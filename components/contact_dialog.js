@@ -30,6 +30,7 @@ const style = `
     box-shadow: 3px 3px rgba(0,0,0,0.1);
     border: 0 none;
     min-width: 280px;
+    width: 280px;
     max-width: 560px;
     left: 50%;
     right: auto;

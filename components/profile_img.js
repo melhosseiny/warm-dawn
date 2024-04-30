@@ -12,9 +12,15 @@ const style = `
   }
   
   figure {
-    background: linear-gradient(90deg, var(--lapis-lazuli), oklch(from var(--lapis-lazuli) calc(l + .3) c h));
+    background: linear-gradient(90deg, var(--lapis-lazuli), rgb(141 206 255));
     position: relative;
     z-index: 0;
+  }
+
+  @supports (color: rgb(from white r g b)) {
+    figure {
+      background: linear-gradient(90deg, var(--lapis-lazuli), oklch(from var(--lapis-lazuli) calc(l + .3) c h));
+    }
   }
 
   ::slotted(img) {

@@ -93,11 +93,17 @@ const style = `
     justify-content: center;
     font-weight: bold;
     aspect-ratio: 16 / 9;
-    background: linear-gradient(90deg, var(--malachite), oklch(from var(--malachite) calc(l + .3) c h));
+    background: linear-gradient(90deg, var(--malachite), rgb(140, 244, 195));
     color: white;
     border-radius: calc(2 * var(--border-radius));
     text-shadow: var(--malachite) 1px 0 20px;
     transition: transform 400ms cubic-bezier(0.4, 0, 0.25, 1) 0ms, opacity 1s cubic-bezier(0.4, 0, 0.25, 1) 0ms;
+  }
+
+  @supports (color: rgb(from white r g b)) {
+    .fake-img {
+      background: linear-gradient(90deg, var(--malachite), oklch(from var(--malachite) calc(l + .3) c h));
+    }
   }
 
   a.teaser:hover ad-card img {

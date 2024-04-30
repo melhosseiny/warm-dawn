@@ -40,24 +40,43 @@ const style = `
 
   .q {
     background-color: var(--rv21);
-    color: oklch(from var(--rv21) calc(l - .6) c h);
+    color: rgb(65 14 34);
   }
 
   .a {
-    background-color: oklch(from var(--rv21) calc(l - .6) c h);
+    background-color: rgb(65 14 34);
     color: var(--rv21);
   }
 
   :host(:nth-child(2n)) .q {
     background-color: white;
     border: 3px solid var(--rv21);
-    color: oklch(from var(--rv21) calc(l - .6) c h);
+    color: rgb(65 14 34));
   }
 
   :host(:nth-child(2n)) .a {
-    background-color: oklch(from var(--rv21) calc(l - .6) c h);
-    border: 3px solid oklch(from var(--rv21) calc(l - .6) c h);
+    background-color: rgb(65 14 34);
+    border: 3px solid rgb(65 14 34);
     color: var(--rv21);
+  }
+
+  @supports (color: rgb(from white r g b)) {
+    .q {
+      color: oklch(from var(--rv21) calc(l - .6) c h);
+    }
+
+    .a {
+      background-color: oklch(from var(--rv21) calc(l - .6) c h);
+    }
+
+    :host(:nth-child(2n)) .q {
+      color: oklch(from var(--rv21) calc(l - .6) c h);
+    }
+
+    :host(:nth-child(2n)) .a {
+      background-color: oklch(from var(--rv21) calc(l - .6) c h);
+      border: 3px solid oklch(from var(--rv21) calc(l - .6) c h);
+    }
   }
 
   ::slotted(p) {

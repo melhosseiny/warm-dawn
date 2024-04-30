@@ -34,7 +34,7 @@ const style = `
 
   ul.tags li:first-child {
     background-color: var(--amethyst);
-    color: oklch(from var(--amethyst) calc(l + .6) c h);
+    color: white;
     padding: 0 6px;
   }
 
@@ -43,9 +43,10 @@ const style = `
     margin-right: 0;
   }
 
-  ul.tags li:first-child:before {
-    background-color: var(--amethyst);
-    color: oklch(from var(--amethyst) calc(l + .6) c h);
+  @supports (color: rgb(from white r g b)) {
+    ul.tags li:first-child {
+      color: oklch(from var(--amethyst) calc(l + .6) c h);
+    }
   }
 `
 
