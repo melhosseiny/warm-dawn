@@ -118,7 +118,7 @@ header a.base {
 }
 
 header .logo {
-  background-image: url(https://important-deer-81.deno.dev/img/about/hero-clouds_sm.webp);
+  background: url(https://important-deer-81.deno.dev/img/about/profile_sm.webp), linear-gradient(90deg, var(--lapis-lazuli), rgb(141 206 255));
   background-position: center;
   background-size: cover;
   border-radius: 50%;
