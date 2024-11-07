@@ -82,6 +82,7 @@
   --malachite: rgb(20, 146, 101);
   --lapis-lazuli: rgb(45, 112, 171);
   --rv21: rgb(255,188,206);
+  --b21: rgb(164,218,239);
 }
 
 /* Hyperlinks: LVFHA */
@@ -214,37 +215,23 @@ button:active, input[type="button"]:active, a.button:active {
 
 /* icons */
 .symbol {
-  width: var(--font-size-body);
-  max-height: var(--font-size-body);
   padding-top: 2px;
 }
 
-/* about */
-@media screen and (min-width: 30em) {
-  .about ad-carousel {
-    margin-bottom: 64px;
+.scaled.symbol {
+  width: var(--font-size-body);
+  max-height: var(--font-size-body);
+}
+
+#header .actions {
+  & a.button .symbol, & button .symbol, & input.button .symbol {
+    width: 20px;
+    flex-shrink: 0;
   }
-}
 
-
-.about ad-card img, .bookshelf ad-card img {
-  width: 100%;
-}
-
-.about ad-card img {
-  aspect-ratio: 1 / 1;
-}
-
-.about ad-card:not(:first-child) img {
-  object-fit: cover;
-}
-
-.about ad-card svg[slot=thumbnail] {
-  background-color: rgba(0,0,0,0.1);
-}
-
-.about ad-card::part(title), .bookshelf ad-card::part(title) {
-  font-weight: 600;
+  & a.button .txt, & button .txt, & button .symbol {
+    flex-grow: 1;
+  }
 }
 
 /* bookshelf */

@@ -1,5 +1,5 @@
-import { serve } from "https://deno.land/std@0.170.0/http/server.ts";
-import { content_type } from "media_types";
+import { contentType } from "jsr:@std/media-types";
+import { extname } from "jsr:@std/path";
 
 const PATHNAME_PREFIX = "/melhosseiny/warm-dawn/main";
 
@@ -15,7 +15,7 @@ const static_path = [
   "/.well-known"
 ];
 
-serve(async (request) => {
+Deno.serve(async (request) => {
   let { pathname } = new URL(request.url);
 
   pathname = pathname === "/" ? "/index_inline.html" : pathname;
@@ -31,7 +31,7 @@ serve(async (request) => {
     : await Deno.readFile('./index_inline.html');
 
   const headers = new Headers({
-    "content-type": content_type(pathname),
+    "content-type": contentType(extname(pathname)),
     "access-control-allow-origin": "*",
     "cache-control": "no-cache"
   });

@@ -1,8 +1,8 @@
-import { html, state, web_component, define_component } from "https://busy-dog-44.deno.dev/melhosseiny/sourdough/main/sourdough.js";
+import { html, state, web_component, define_component } from "flare";
 import { tags } from "/components/tags.js";
 
-//const ASSET_HOST = "http://localhost:4507";
-const ASSET_HOST = "https://important-deer-81.deno.dev";
+const ASSET_HOST = "http://localhost:4507";
+//const ASSET_HOST = "https://important-deer-81.deno.dev";
 const PAGE_SIZE = 10;
 
 const format_date = (datetime) => {
@@ -81,10 +81,6 @@ const style = `
     font-family: "SF Pro Display";
     font-weight: bold;
     white-space: normal;
-  }
-
-  ad-card::part(text) {
-    font-weight: 300;
   }
 
   .fake-img {
@@ -174,7 +170,7 @@ const style = `
 export function toc(spec) {
   let { _root } = spec;
   const _web_component = web_component(spec);
-  const _state = _web_component.state;
+  const _state = state(spec);
 
   const fetch_notes = async () => {
     const response = await fetch(`${ASSET_HOST}/index.json?page_size=${PAGE_SIZE}`);

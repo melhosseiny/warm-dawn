@@ -1,4 +1,4 @@
-import { html, state, web_component, define_component } from "https://busy-dog-44.deno.dev/melhosseiny/sourdough/main/sourdough.js";
+import { html, state, web_component, define_component } from "flare";
 
 import { note_comments } from "/components/note_comments.js";
 
@@ -9,8 +9,7 @@ const BLACKLISTED_IDS = [
   "about",
   "bookshelf",
   "refer",
-  "type_specimen",
-  "lazy"
+  "papers"
 ]
 
 const template = (data) => html`
@@ -203,7 +202,7 @@ const style = `
 export function note(spec) {
   let { _root } = spec;
   const _web_component = web_component(spec);
-  const _state = _web_component.state;
+  const _state = state(spec);
 
   const fetch_note = async (lang = '') => {
     try {
@@ -212,7 +211,7 @@ export function note(spec) {
       const has_math_response = await fetch(`${ASSET_HOST}/has_math?id=${spec.id}`);
       const has_math = await has_math_response.text();
 
-      const response = await fetch(`${ASSET_HOST}/${spec.id}${lang}.html`);
+      const response = await fetch(BLACKLISTED_IDS.includes(spec.id) ? `${ASSET_HOST}/${spec.id}${lang}.html` : `${ASSET_HOST}/note/${spec.id}${lang}.html`);
       if (response.status === 404) { throw 'Page not found' }
       const note = await response.text();
 

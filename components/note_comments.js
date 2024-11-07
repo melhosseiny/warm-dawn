@@ -1,12 +1,53 @@
-import { html, state, web_component, define_component } from "https://busy-dog-44.deno.dev/melhosseiny/sourdough/main/sourdough.js";
+import { html, state, web_component, define_component } from "flare";
 
 const ASSET_HOST = "https://important-deer-81.deno.dev";
 
-const format_date = (datetime) => {
-  const datetime_format = new Intl.DateTimeFormat("en-US");
-  const date = new Date(datetime);
-  return datetime_format.format(date);
+const NOW = 5
+const MINUTE = 60
+const HOUR = MINUTE * 60
+const DAY = HOUR * 24
+const MONTH_30 = DAY * 30
+const MONTH = DAY * 30.41675 // This results in 365.001 days in a year, which is close enough for nearly all cases
+
+function ago(date) {
+  let ts;
+  if (typeof date === 'string') {
+    ts = Number(new Date(date))
+  } else if (date instanceof Date) {
+    ts = Number(date)
+  } else {
+    ts = date
+  }
+  const diffSeconds = Math.floor((Date.now() - ts) / 1e3)
+  if (diffSeconds < NOW) {
+    return `now`
+  } else if (diffSeconds < MINUTE) {
+    return `${diffSeconds}s`
+  } else if (diffSeconds < HOUR) {
+    return `${Math.floor(diffSeconds / MINUTE)}m`
+  } else if (diffSeconds < DAY) {
+    return `${Math.floor(diffSeconds / HOUR)}h`
+  } else if (diffSeconds < MONTH_30) {
+    return `${Math.round(diffSeconds / DAY)}d`
+  } else {
+    let months = diffSeconds / MONTH
+    if (months % 1 >= 0.9) {
+      months = Math.ceil(months)
+    } else {
+      months = Math.floor(months)
+    }
+
+    if (months < 12) {
+      return `${months}mo`
+    } else {
+      const datetime_format = new Intl.DateTimeFormat("en-US");
+      const date = new Date(ts);
+      return datetime_format.format(date);
+    }
+  }
 }
+
+const format_date = ago;
 
 const template = (data) => html`
   <div ref="comments">
@@ -29,6 +70,10 @@ const template = (data) => html`
 `
 
 const style = `
+  :host {
+    display: block;
+  }
+
   p {
     margin-bottom: 0;
     font-size: 14px;
@@ -71,7 +116,7 @@ const style = `
 export function note_comments(spec) {
   let { _root } = spec;
   const _web_component = web_component(spec);
-  const _state = _web_component.state;
+  const _state = state(spec);
 
   const fetch_note_comments = async () => {
     try {
@@ -82,6 +127,7 @@ export function note_comments(spec) {
       if (response.status === 404) { throw 'No comments found' }
       const note_comments = await response.json();
       _state.comments = note_comments;
+      _root.parentNode.querySelector("button").dataset.comments = note_comments.length;
     } catch (error) {
       console.log(error);
     }

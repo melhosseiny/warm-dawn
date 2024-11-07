@@ -1,5 +1,17 @@
 {
-  "version": "2",
+  "version": "4",
+  "specifiers": {
+    "jsr:@std/media-types@*": "1.0.3",
+    "jsr:@std/path@*": "1.0.7"
+  },
+  "jsr": {
+    "@std/media-types@1.0.3": {
+      "integrity": "b12d30a7852f7578f4d210622df713bbfd1cbdd9b4ec2eaf5c1845ab70bab159"
+    },
+    "@std/path@1.0.7": {
+      "integrity": "76a689e07f0e15dcc6002ec39d0866797e7156629212b28f27179b8a5c3b33a1"
+    }
+  },
   "remote": {
     "https://deno.land/std@0.170.0/async/abortable.ts": "80b2ac399f142cc528f95a037a7d0e653296352d95c681e284533765961de409",
     "https://deno.land/std@0.170.0/async/deadline.ts": "2c2deb53c7c28ca1dda7a3ad81e70508b1ebc25db52559de6b8636c9278fd41f",

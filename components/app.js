@@ -1,4 +1,4 @@
-import { installRouter } from "https://busy-dog-44.deno.dev/melhosseiny/sourdough/main/router.js";
+import { installRouter } from "router";
 
 const toTitleCase = function(s) {
   return s.replace(/-/g, ' ')[0].toUpperCase() +
@@ -24,6 +24,10 @@ const loadPage = async function(page) {
     case "index":
       document.title = "Mostafa Elshamy";
       document.querySelector("#main").innerHTML = `<wd-toc></wd-toc>`;
+      break;
+    case "feed":
+      document.title = "Feed - Mostafa Elshamy";
+      document.querySelector("#main").innerHTML = `<wd-feed></wd-feed>`;
       break;
     default:
       const note = await import("/components/note.js");
