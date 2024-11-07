@@ -2,8 +2,8 @@ import { html, state, web_component, define_component } from "flare";
 
 import { note_comments } from "/components/note_comments.js";
 
-//const ASSET_HOST = "http://localhost:4507";
-const ASSET_HOST = "https://important-deer-81.deno.dev";
+const ASSET_HOST = "http://localhost:4507";
+//const ASSET_HOST = "https://important-deer-81.deno.dev";
 
 const BLACKLISTED_IDS = [
   "about",
