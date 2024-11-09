@@ -1,7 +1,6 @@
 import { html, state, web_component, define_component } from "flare";
 
-//const ASSET_HOST = "http://localhost:4507";
-const ASSET_HOST = "https://important-deer-81.deno.dev";
+import { ASSET_HOST } from "/components/app.js";
 const PAGE_SIZE = 10;
 
 

@@ -1,9 +1,7 @@
 import { html, state, web_component, define_component } from "flare";
 
-import { note_comments } from "/components/note_comments.js";
-
-//const ASSET_HOST = "http://localhost:4507";
-const ASSET_HOST = "https://important-deer-81.deno.dev";
+import { comments } from "/components/comments.js";
+import { ASSET_HOST } from "/components/app.js";
 
 const BLACKLISTED_IDS = [
   "about",
@@ -20,7 +18,7 @@ const template = (data) => html`
       <option value="ar" ${ data.lang === "ar" ? "selected" : ''}>ar</option>
     </select>
     ${ data.markup }
-    ${ BLACKLISTED_IDS.includes(data.id) ? '' : `<wd-note-comments id="${data.id}" noteloaded="${data.markup !== undefined}" lang="en" dir="ltr"></wd-note-comments>` }
+    ${ !data.show_comments || BLACKLISTED_IDS.includes(data.id) ? '' : `<wd-comments id="${data.id}" can-add-comment="${data.markup !== undefined}" lang="en" dir="ltr"></wd-comments>` }
   </article>
 `
 
@@ -203,6 +201,7 @@ export function note(spec) {
   let { _root } = spec;
   const _web_component = web_component(spec);
   const _state = state(spec);
+  
 
   const fetch_note = async (lang = '') => {
     try {
@@ -214,6 +213,9 @@ export function note(spec) {
       const response = await fetch(BLACKLISTED_IDS.includes(spec.id) ? `${ASSET_HOST}/${spec.id}${lang}.html` : `${ASSET_HOST}/note/${spec.id}${lang}.html`);
       if (response.status === 404) { throw 'Page not found' }
       const note = await response.text();
+      
+      _state.show_comments = true;
+      
 
       _state.markup = note;
       if (has_math === "true") {
@@ -222,6 +224,7 @@ export function note(spec) {
         _root.shadowRoot.appendChild(style_el);
       }
     } catch (error) {
+      _state.show_comments = false;
       console.log(error);
       document.title = `${error} - Mostafa Elshamy`;
       switch (_state.lang) {
@@ -240,6 +243,7 @@ export function note(spec) {
   }
 
   const init = () => {
+    _state.show_comments = false;
     fetch_note();
   }
 

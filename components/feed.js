@@ -1,91 +1,32 @@
 import { html, state, web_component, define_component } from "flare";
 
-import { note_comments } from "/components/note_comments.js";
+import { comments } from "/components/comments.js";
 import { like_button } from "/components/like_button.js";
 
-//const ASSET_HOST = "http://localhost:4507";
-const ASSET_HOST = "https://important-deer-81.deno.dev";
+import { ASSET_HOST, ago, format_date } from "/components/app.js";
 const PAGE_SIZE = 10;
-
-const NOW = 5
-const MINUTE = 60
-const HOUR = MINUTE * 60
-const DAY = HOUR * 24
-const MONTH_30 = DAY * 30
-const MONTH = DAY * 30.41675 // This results in 365.001 days in a year, which is close enough for nearly all cases
-
-function ago(date) {
-  let ts;
-  if (typeof date === 'string') {
-    ts = Number(new Date(date))
-  } else if (date instanceof Date) {
-    ts = Number(date)
-  } else {
-    ts = date
-  }
-  const diffSeconds = Math.floor((Date.now() - ts) / 1e3)
-  if (diffSeconds < NOW) {
-    return `now`
-  } else if (diffSeconds < MINUTE) {
-    return `${diffSeconds}s`
-  } else if (diffSeconds < HOUR) {
-    return `${Math.floor(diffSeconds / MINUTE)}m`
-  } else if (diffSeconds < DAY) {
-    return `${Math.floor(diffSeconds / HOUR)}h`
-  } else if (diffSeconds < MONTH_30) {
-    return `${Math.round(diffSeconds / DAY)}d`
-  } else {
-    let months = diffSeconds / MONTH
-    if (months % 1 >= 0.9) {
-      months = Math.ceil(months)
-    } else {
-      months = Math.floor(months)
-    }
-
-    if (months < 12) {
-      return `${months}mo`
-    } else {
-      const datetime_format = new Intl.DateTimeFormat("en-US", {  year: "numeric", month: "short", day: "numeric" });
-      const date = new Date(ts);
-      return datetime_format.format(date);
-    }
-  }
-}
-
-const format_date = ago;
-
-function niceDate(datetime) {
-  const d = new Date(datetime)
-  return `${d.toLocaleDateString('en-us', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  })} at ${d.toLocaleTimeString(undefined, {
-    hour: 'numeric',
-    minute: '2-digit',
-  })}`
-}
 
 const template = (data) => html`
   <div id="feed" ref="page">
     ${ data.page && data.page.posts ?
       data.page.posts.slice().map((post, index) =>
-        `<ad-card data-hash="${post.hash}" subtitle-label="<time title='${niceDate(post.time)}' datetime='${post.time}'>${format_date(post.time)}</time>">
+        `<ad-card data-hash="${post.hash}" subtitle-label="<time title='${format_date(post.time)}' datetime='${post.time}'>${ago(post.time)}</time>">
           <div slot="text">
             <wd-post id="${post.id}"></wd-post>
           </div>
           <div slot="actions">
-            <wd-like-button likes="${post.likes}" id="${post.id}"></wd-like-button>
+            <wd-like-button likes="${post.like}" id="${post.id}"></wd-like-button>
             <button class="comment-button text" data-id="${post.id}">
               <svg class="symbol" height="13.8374" width="15.2651" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 15.2651 13.8374">
-               <g>
-                <rect height="13.8374" opacity="0" width="15.2651" x="0" y="0"/>
-                <path d="M2.85547 13.8374C3.78516 13.8374 5.67773 12.8745 7.01416 11.8867C11.6543 11.9199 14.8916 9.28027 14.8916 5.95166C14.8916 2.65625 11.5796 0 7.4458 0C3.32031 0 0 2.65625 0 5.95166C0 8.09326 1.36963 10.0024 3.42822 10.9321C3.12939 11.5132 2.56494 12.335 2.26611 12.7334C1.90918 13.2065 2.1333 13.8374 2.85547 13.8374ZM3.66895 12.6006C3.61914 12.6255 3.60254 12.584 3.63574 12.5425C4.01758 12.0693 4.52393 11.3721 4.73975 10.9902C4.94727 10.6167 4.89746 10.2681 4.41602 10.0439C2.37402 9.09766 1.22852 7.62842 1.22852 5.95166C1.22852 3.35352 3.98438 1.22852 7.4458 1.22852C10.9155 1.22852 13.6631 3.35352 13.6631 5.95166C13.6631 8.5415 10.9155 10.6665 7.4458 10.6665C7.36279 10.6665 7.19678 10.6665 6.95605 10.6665C6.64893 10.6665 6.4165 10.7661 6.14258 10.9902C5.42041 11.5547 4.2749 12.3101 3.66895 12.6006Z" fill="currentColor" fill-opacity="0.85"/>
-               </g>
-              </svg>
+                 <g>
+                  <rect height="13.8374" opacity="0" width="15.2651" x="0" y="0"/>
+                  <path d="M2.85547 13.8374C3.78516 13.8374 5.67773 12.8745 7.01416 11.8867C11.6543 11.9199 14.8916 9.28027 14.8916 5.95166C14.8916 2.65625 11.5796 0 7.4458 0C3.32031 0 0 2.65625 0 5.95166C0 8.09326 1.36963 10.0024 3.42822 10.9321C3.12939 11.5132 2.56494 12.335 2.26611 12.7334C1.90918 13.2065 2.1333 13.8374 2.85547 13.8374ZM3.66895 12.6006C3.61914 12.6255 3.60254 12.584 3.63574 12.5425C4.01758 12.0693 4.52393 11.3721 4.73975 10.9902C4.94727 10.6167 4.89746 10.2681 4.41602 10.0439C2.37402 9.09766 1.22852 7.62842 1.22852 5.95166C1.22852 3.35352 3.98438 1.22852 7.4458 1.22852C10.9155 1.22852 13.6631 3.35352 13.6631 5.95166C13.6631 8.5415 10.9155 10.6665 7.4458 10.6665C7.36279 10.6665 7.19678 10.6665 6.95605 10.6665C6.64893 10.6665 6.4165 10.7661 6.14258 10.9902C5.42041 11.5547 4.2749 12.3101 3.66895 12.6006Z" fill="currentColor" fill-opacity="0.85"/>
+                 </g>
+                </svg>
+              ${ post.comment > 0 ? post.comment : '' }
             </button>
             <br>
-            <wd-note-comments id="${post.id}" noteloaded="${true}" lang="en" dir="ltr" style="display: none;"></wd-note-comments>
+            <wd-comments loading="lazy" id="${post.id}" can-add-comment="${true}" lang="en" dir="ltr" style="display: none;"></wd-comments>
           </div>
         </ad-card>
       `).join('') : "<p>No posts yet!</p>"
@@ -187,41 +128,21 @@ export function feed(spec) {
     console.log("_refeedstate", _state.page, _state.more);
   }
   
-  const like_post = async (event) => {
-    event.preventDefault();
-    const target = event.currentTarget;
-    let object = {
-      likes: Number(target.dataset.likes) + 1
-    };
-    new FormData().forEach((value, key) => {object[key] = value});
-
-    fetch(`${ASSET_HOST}/like?id=${target.dataset.id}`, {
-      method: "PUT",
-      body: JSON.stringify(object)
-    })
-    .then(response => {
-      if (response.ok) {
-        document.querySelector('#toast').component.display("Post liked!");
-        //fetch_note_comments();
-      } else {
-        throw new Error('Network response was not ok.');
-      }
-    })
-    .catch(error => { console.log(error); document.querySelector('#toast').component.display("Uh oh! Post not liked.") });
-  }
-  
   const toggle_comments = (event) => {
+    const selector = `wd-comments[id="${event.currentTarget.dataset.id}"]`;
+
     if (event.currentTarget.dataset.open) {
       event.currentTarget.removeAttribute("data-open");
-      shadow.querySelector(`wd-note-comments[id="${event.currentTarget.dataset.id}"]`).setAttribute("style", "display: none;");
+      shadow.querySelector(selector).setAttribute("style", "display: none;");
     } else {
       event.currentTarget.dataset.open = "open";
-      shadow.querySelector(`wd-note-comments[id="${event.currentTarget.dataset.id}"]`).setAttribute("style", "display: block;");
+      shadow.querySelector(selector).setAttribute("style", "display: block;");
+      console.log("loaded", event.currentTarget.dataset.loaded);
+      if (!("loaded" in event.currentTarget.dataset)) {
+        shadow.querySelector(selector).component.load();
+      }
+      event.currentTarget.dataset.loaded = '';
     }
-    console.log(event.currentTarget.dataset.id);
-    console.log(shadow.querySelector(`wd-note-comments[id="${event.currentTarget.dataset.id}"]`));
-    console.log(shadow.querySelector(`wd-note-comments[id="${event.currentTarget.dataset.id}"]`).style);
-    
   }
 
   const init = () => {
@@ -239,9 +160,6 @@ export function feed(spec) {
     if (more_btn) {
       more_btn.addEventListener("click", handle_fetch_more);
     }
-
-    const like_buttons = shadow.querySelectorAll('.like-button');
-    like_buttons.forEach(button => button.addEventListener("click", like_post));
     
     const comment_buttons = shadow.querySelectorAll('.comment-button');
     comment_buttons.forEach(button => button.addEventListener("click", toggle_comments));
@@ -252,9 +170,6 @@ export function feed(spec) {
     if (more_btn) {
       more_btn.removeEventListener("click", handle_fetch_more);
     }
-
-    const like_buttons = shadow.querySelectorAll('.like-button');
-    like_buttons.forEach(button => button.removeEventListener("click", like_post));
     
     const comment_buttons = shadow.querySelectorAll('.comment-button');
     comment_buttons.forEach(button => button.removeEventListener("click", toggle_comments));

@@ -121,6 +121,10 @@ export function contact_dialog(spec) {
   const submit = (event, form) => {
     event.preventDefault();
 
+    if (!form.reportValidity()) {
+      return;
+    }
+
     let object = {};
     new FormData(form).forEach((value, key) => {object[key] = value});
 
