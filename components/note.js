@@ -18,7 +18,9 @@ const template = (data) => html`
       <option value="ar" ${ data.lang === "ar" ? "selected" : ''}>ar</option>
     </select>
     ${ data.markup }
-    ${ !data.show_comments || BLACKLISTED_IDS.includes(data.id) ? '' : `<wd-comments id="${data.id}" can-add-comment="${data.markup !== undefined}" lang="en" dir="ltr"></wd-comments>` }
+    <div ref="show_comments">
+      ${ !data.show_comments || BLACKLISTED_IDS.includes(data.id) ? '' : `<wd-comments id="${data.id}" can-add-comment="${data.markup !== undefined}" lang="en" dir="ltr"></wd-comments>` }
+    </div>
   </article>
 `
 
@@ -215,8 +217,6 @@ export function note(spec) {
       const note = await response.text();
       
       _state.show_comments = true;
-      
-
       _state.markup = note;
       if (has_math === "true") {
         const style_el = document.createElement("style");
