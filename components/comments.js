@@ -71,15 +71,16 @@ export function comments(spec) {
   const _web_component = web_component(spec);
   const _state = state(spec);
 
-  const fetch_note_comments = async () => {
+  const fetch_comments = async () => {
     try {
       const response = await fetch(`${ASSET_HOST}/comment?id=${spec.id}`, {
         cache: "no-cache"
       });
       console.log(response);
       if (response.status === 404) { throw 'No comments found' }
-      const note_comments = await response.json();
-      _state.comments = note_comments;
+      const comments = await response.json();
+      _state.comments = comments;
+      _root.parentNode.querySelector("button").dataset.comments = comments.length;
     } catch (error) {
       console.log(error);
     }
@@ -87,12 +88,12 @@ export function comments(spec) {
 
   const init = () => {
     if (spec.loading !== "lazy") {
-      fetch_note_comments();
+      fetch_comments();
     }
   }
   
   const load = () => {
-    fetch_note_comments();
+    fetch_comments();
   }
 
   const effects = () => {
@@ -121,7 +122,7 @@ export function comments(spec) {
     .then(response => {
       if (response.ok) {
         document.querySelector('#toast').component.display("Comment posted!");
-        fetch_note_comments();
+        fetch_comments();
       } else {
         throw new Error('Network response was not ok.');
       }
