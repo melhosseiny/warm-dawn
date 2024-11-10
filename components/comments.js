@@ -111,7 +111,7 @@ export function comments(spec) {
       return;
     }
     
-    const post_reactions_component = document.querySelector("wd-feed").shadowRoot
+    const post_reactions_component = document.querySelector("wd-feed")?.shadowRoot
       .querySelector(`wd-post[id="${spec.id}"]`).shadowRoot
       .querySelector(`wd-reactions[id="${spec.id}"]`)
       .component
@@ -125,7 +125,7 @@ export function comments(spec) {
     })
     .then(response => {
       if (response.ok) {
-        post_reactions_component.increment_comment()
+        post_reactions_component?.increment_comment()
         document.querySelector('#toast').component.display("Comment posted!");
         fetch_comments();
       } else {
