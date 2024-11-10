@@ -65,7 +65,7 @@ const style = `
 `
 
 export function post(spec) {
-  let { shadow } = spec;
+  let { _root, shadow } = spec;
   const _web_component = web_component(spec);
   const _state = state(spec);
 
