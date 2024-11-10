@@ -81,7 +81,7 @@ export function comments(spec) {
       const comments = await response.json();
       _state.comments = comments;
       _root.parentNode.querySelector("button").dataset.comments =
-        comments.length > 0 ? comment.length : '';
+        comments.length > 0 ? comments.length : '';
     } catch (error) {
       console.log(error);
     }
