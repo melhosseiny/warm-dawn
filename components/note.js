@@ -1,7 +1,7 @@
 import { html, state, web_component, define_component } from "flare";
 
 import { comments } from "/components/comments.js";
-import { ASSET_HOST } from "/components/app.js";
+import { ASSET_HOST, html_404, html_404_no, html_404_ar } from "/components/app.js";
 
 const BLACKLISTED_IDS = [
   "about",
@@ -24,24 +24,6 @@ const template = (data) => html`
   </article>
 `
 
-const html_404 = (error) => `
-  <h1>Uh oh</h1>
-  <p>${error}.</p>
-  <p>Go back to the <a href="/">homepage</a>.</p>
-`
-
-const html_404_no = (error) => `
-  <h1>Øh, noe gikk galt</h1>
-  <p>${error}.</p>
-  <p>Gå tilbake til <a href="/">hjemmesiden</a>.</p>
-`
-
-const html_404_ar = (error) => `
-  <h1>حدث خطأ</h1>
-  <p>${error}.</p>
-  <p>عد إلي <a href="/">الصفحة الرئيسية</a>.</p>
-`
-
 const style = `
   #lang-selector {
     float: right;
@@ -58,7 +40,7 @@ const style = `
   }
 
   h1 {
-    font-family: "SF Pro Display";
+    font-family: var(--type-display);
     font-weight: bold;
   }
 

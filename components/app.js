@@ -33,13 +33,38 @@ const load_page = async function(page) {
       document.querySelector("#main").innerHTML = `<wd-feed></wd-feed>`;
       break;
     default:
-      const note = await import("/components/note.js");
-      document.title = `${toTitleCase(page)} - Mostafa Elshamy`;
-      document.querySelector("#main").innerHTML = `<wd-note id="${ page }"></wd-note>`;
+      if (page.startsWith("post/")) {
+        console.log("id", page.split('/')[1]);
+        document.title = `${toTitleCase(page)} - Mostafa Elshamy`;
+        document.querySelector("#main").innerHTML = `<wd-post id="${ page.split('/')[1] }"></wd-post>`;
+      } else {
+        const note = await import("/components/note.js");
+        document.title = `${toTitleCase(page)} - Mostafa Elshamy`;
+        document.querySelector("#main").innerHTML = `<wd-note id="${ page }"></wd-note>`;
+      }
   }
 }
 
 installRouter((location) => handle_nav(location));
+
+// 404
+export const html_404 = (error) => `
+  <h1>Uh oh</h1>
+  <p>Page not found.</p>
+  <p>Go back to the <a href="/">homepage</a>.</p>
+`
+
+export const html_404_no = (error) => `
+  <h1>Øh, noe gikk galt</h1>
+  <p>Siden ikke funnet.</p>
+  <p>Gå tilbake til <a href="/">hjemmesiden</a>.</p>
+`
+
+export const html_404_ar = (error) => `
+  <h1>حدث خطأ</h1>
+  <p>لم يتم العثور على الصفحة.</p>
+  <p>عد إلي <a href="/">الصفحة الرئيسية</a>.</p>
+`
 
 // utils
 const NOW = 5

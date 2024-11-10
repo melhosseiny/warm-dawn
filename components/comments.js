@@ -80,7 +80,8 @@ export function comments(spec) {
       if (response.status === 404) { throw 'No comments found' }
       const comments = await response.json();
       _state.comments = comments;
-      _root.parentNode.querySelector("button").dataset.comments = comments.length;
+      _root.parentNode.querySelector("button").dataset.comments =
+        comments.length > 0 ? comment.length : '';
     } catch (error) {
       console.log(error);
     }

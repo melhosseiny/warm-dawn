@@ -10,24 +10,7 @@ const template = (data) => html`
   <div id="feed" ref="page">
     ${ data.page && data.page.posts ?
       data.page.posts.slice().map((post, index) =>
-        `<ad-card data-hash="${post.hash}" subtitle-label="<time title='${format_date(post.time)}' datetime='${post.time}'>${ago(post.time)}</time>">
-          <div slot="text">
-            <wd-post id="${post.id}"></wd-post>
-          </div>
-          <div slot="actions">
-            <wd-like-button likes="${post.like}" id="${post.id}"></wd-like-button>
-            <button class="comment-button text" data-id="${post.id}" data-comments="${ post.comment > 0 ? post.comment : '' }">
-              <svg class="symbol" height="13.8374" width="15.2651" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 15.2651 13.8374">
-                <g>
-                  <rect height="13.8374" opacity="0" width="15.2651" x="0" y="0"/>
-                  <path d="M2.85547 13.8374C3.78516 13.8374 5.67773 12.8745 7.01416 11.8867C11.6543 11.9199 14.8916 9.28027 14.8916 5.95166C14.8916 2.65625 11.5796 0 7.4458 0C3.32031 0 0 2.65625 0 5.95166C0 8.09326 1.36963 10.0024 3.42822 10.9321C3.12939 11.5132 2.56494 12.335 2.26611 12.7334C1.90918 13.2065 2.1333 13.8374 2.85547 13.8374ZM3.66895 12.6006C3.61914 12.6255 3.60254 12.584 3.63574 12.5425C4.01758 12.0693 4.52393 11.3721 4.73975 10.9902C4.94727 10.6167 4.89746 10.2681 4.41602 10.0439C2.37402 9.09766 1.22852 7.62842 1.22852 5.95166C1.22852 3.35352 3.98438 1.22852 7.4458 1.22852C10.9155 1.22852 13.6631 3.35352 13.6631 5.95166C13.6631 8.5415 10.9155 10.6665 7.4458 10.6665C7.36279 10.6665 7.19678 10.6665 6.95605 10.6665C6.64893 10.6665 6.4165 10.7661 6.14258 10.9902C5.42041 11.5547 4.2749 12.3101 3.66895 12.6006Z" fill="currentColor" fill-opacity="0.85"/>
-                </g>
-              </svg>
-            </button>
-            <br>
-            <wd-comments loading="lazy" id="${post.id}" can-add-comment="${true}" lang="en" dir="ltr" style="display: none;"></wd-comments>
-          </div>
-        </ad-card>
+        `<wd-post data-hash="${post.hash}" id="${post.id}" time="${post.time}"></wd-post>
       `).join('') : "<p>No posts yet!</p>"
     }
   </div>
@@ -54,52 +37,6 @@ const style = `
   #feed {
     content-visibility: auto;
   }
-
-  ad-card {
-    display: block;
-    width: 100%;
-  }
-
-  ad-card img {
-    display: block;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    transition: transform 400ms cubic-bezier(0.4, 0, 0.25, 1) 0ms, opacity 1s cubic-bezier(0.4, 0, 0.25, 1) 0ms;
-  }
-
-  ad-card::part(title) {
-    font-family: "SF Pro Display";
-    white-space: normal;
-  }
-
-  ad-card::part(subtitle) {
-    display: inline-block;
-    color: #666;
-    font-size: 14px;
-    padding-right: 0.5em;
-  }
-
-  .comment-button[data-comments]::after {
-    content: attr(data-comments);
-  }
-
-  button {
-    border: 0 none;
-    color: rgba(var(--text-color), 0.7);
-  }
-  button.text {
-    --opacity-hover: 0;
-    --opacity-active: 0;
-  }
-
-  button:hover {
-    color: var(--b21);
-  }
-
-  button:active {
-    color: var(--b21);
-  }
 `
 
 export function feed(spec) {
@@ -114,6 +51,11 @@ export function feed(spec) {
     _state.more = page.has_more;
     console.log("_feedstate", _state.page, _state.more);
   }
+  
+  const init = () => {
+    console.log("wd-feed:init", this, _root, shadow);
+    fetch_posts();
+  }
 
   const fetch_more_posts = async (after) => {
     const response = await fetch(`${ASSET_HOST}/post/index.json?page_size=${PAGE_SIZE}&after=${after}`);
@@ -125,6 +67,11 @@ export function feed(spec) {
     }
     _state.more = page.has_more;
     console.log("_refeedstate", _state.page, _state.more);
+  }
+  
+  const handle_fetch_more = (event) => {
+    event.preventDefault();
+    fetch_more_posts(_state.page.cursor);
   }
   
   const toggle_comments = (event) => {
@@ -144,14 +91,15 @@ export function feed(spec) {
     }
   }
 
-  const init = () => {
-    console.log("wd-feed:init", this, _root, shadow);
-    fetch_posts();
-  }
-
-  const handle_fetch_more = (event) => {
-    event.preventDefault();
-    fetch_more_posts(_state.page.cursor);
+  const share_post = async (event) => {
+    const id = event.currentTarget.dataset.id;
+    try {
+      await navigator.share({
+        url: `http://localhost:8000/post/${id}`,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const effects = () => {
@@ -159,9 +107,6 @@ export function feed(spec) {
     if (more_btn) {
       more_btn.addEventListener("click", handle_fetch_more);
     }
-    
-    const comment_buttons = shadow.querySelectorAll('.comment-button');
-    comment_buttons.forEach(button => button.addEventListener("click", toggle_comments));
   }
 
   const cleanup_effects = () => {
@@ -169,9 +114,6 @@ export function feed(spec) {
     if (more_btn) {
       more_btn.removeEventListener("click", handle_fetch_more);
     }
-    
-    const comment_buttons = shadow.querySelectorAll('.comment-button');
-    comment_buttons.forEach(button => button.removeEventListener("click", toggle_comments));
   }
 
   return Object.freeze({
