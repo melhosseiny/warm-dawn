@@ -123,3 +123,8 @@ export function format_date(datetime) {
     minute: '2-digit',
   })}`
 }
+
+export function format_big_n(n) {
+  return (new Intl.NumberFormat('en', { notation: 'compact' })
+    .format(n)).toLowerCase();
+}

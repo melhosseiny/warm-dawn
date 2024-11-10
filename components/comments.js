@@ -67,7 +67,7 @@ const style = `
 `
 
 export function comments(spec) {
-  let { _root, shadow } = spec;
+  let { shadow } = spec;
   const _web_component = web_component(spec);
   const _state = state(spec);
 
@@ -80,8 +80,6 @@ export function comments(spec) {
       if (response.status === 404) { throw 'No comments found' }
       const comments = await response.json();
       _state.comments = comments;
-      _root.parentNode.querySelector("button").dataset.comments =
-        comments.length > 0 ? comments.length : '';
     } catch (error) {
       console.log(error);
     }
@@ -112,6 +110,11 @@ export function comments(spec) {
     if (!form.reportValidity()) {
       return;
     }
+    
+    const post_reactions_component = document.querySelector("wd-feed").shadowRoot
+      .querySelector(`wd-post[id="${spec.id}"]`).shadowRoot
+      .querySelector(`wd-reactions[id="${spec.id}"]`)
+      .component
 
     let object = {};
     new FormData(form).forEach((value, key) => {object[key] = value});
@@ -122,6 +125,7 @@ export function comments(spec) {
     })
     .then(response => {
       if (response.ok) {
+        post_reactions_component.increment_comment()
         document.querySelector('#toast').component.display("Comment posted!");
         fetch_comments();
       } else {

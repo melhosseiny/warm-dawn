@@ -1,7 +1,7 @@
 import { html, state, web_component, define_component } from "flare";
 
+import { reactions } from "/components/reactions.js";
 import { comments } from "/components/comments.js";
-import { like_button } from "/components/like_button.js";
 
 import { ASSET_HOST, ago, format_date } from "/components/app.js";
 const PAGE_SIZE = 10;
@@ -40,7 +40,7 @@ const style = `
 `
 
 export function feed(spec) {
-  let { _root, shadow } = spec;
+  let { shadow } = spec;
   const _web_component = web_component(spec);
   const _state = state(spec);
 
@@ -53,7 +53,6 @@ export function feed(spec) {
   }
   
   const init = () => {
-    console.log("wd-feed:init", this, _root, shadow);
     fetch_posts();
   }
 
