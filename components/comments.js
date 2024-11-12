@@ -188,7 +188,7 @@ export function comments(spec) {
     })
     .then(response => {
       if (response.ok) {
-        reactions_component?.increment_comment()
+//        reactions_component?.increment_comment()
         document.querySelector('#toast').component.display("Comment posted!");
         fetch_comments();
       } else {
