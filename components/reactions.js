@@ -1,6 +1,6 @@
 import { html, state, web_component, define_component } from "flare";
 
-import { ASSET_HOST, HOST, format_big_n } from "/components/app.js";
+import { ASSET_HOST, format_big_n } from "/components/app.js";
 
 const template = (data) => html`
   <button ref="like" class="like-button text" data-id="${data.id}">
@@ -108,7 +108,7 @@ export function reactions(spec) {
     const id = event.currentTarget.dataset.id;
     try {
       await navigator.share({
-        url: `${HOST}/post/${id}`,
+        url: spec.url,
       });
     } catch (error) {
       console.error(error);
@@ -154,6 +154,6 @@ define_component({
   component: reactions,
   template,
   style,
-  props: ["id", "like", "comment"]
+  props: ["id", "like", "comment", "url"]
 });
 

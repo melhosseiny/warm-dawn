@@ -1,7 +1,7 @@
 import { html, state, web_component, define_component } from "flare";
 
 import { comments } from "/components/comments.js";
-import { ASSET_HOST, html_404, html_404_no, html_404_ar } from "/components/app.js";
+import { ASSET_HOST, HOST, html_404, html_404_no, html_404_ar, ago, format_date } from "/components/app.js";
 
 const BLACKLISTED_IDS = [
   "about",
@@ -18,6 +18,7 @@ const template = (data) => html`
       <option value="ar" ${ data.lang === "ar" ? "selected" : ''}>ar</option>
     </select>
     ${ data.markup }
+    <time ref="time" title="${format_date(data.time)}" datetime="${data.time}">${data.time ? ago(data.time) : ''}</time>
     ${ BLACKLISTED_IDS.includes(data.id) ? '' : `
       <div id="actions" ref="like comment">
         ${data.like && data.comment ?
@@ -25,6 +26,7 @@ const template = (data) => html`
             id="${data.id}"
             like="${data.like}"
             comment="${data.comment}"
+            url="${HOST}/${data.id}"
           ></wd-reactions>
           <wd-comments id="${data.id}" can-add-comment="${data.markup !== undefined}" lang="en" dir="ltr"></wd-comments>` : ''
         }
@@ -34,6 +36,10 @@ const template = (data) => html`
 `
 
 const style = `
+  :host {
+    display: block;
+  }
+
   #lang-selector {
     float: right;
     outline: none;
@@ -51,6 +57,13 @@ const style = `
   h1 {
     font-family: var(--type-display);
     font-weight: bold;
+  }
+
+  time {
+    position: absolute;
+    right: 0;
+    color: #a9a9a9;
+    font-size: 1rem;
   }
 
   /* figures */
@@ -99,6 +112,7 @@ const style = `
 
   article {
     max-width: 38em;
+    position: relative;
   }
 
   article img, article video {
@@ -206,6 +220,7 @@ export function note(spec) {
       const note = await response.text();
       
       if (!BLACKLISTED_IDS.includes(spec.id)) {
+        _state.time = meta.time;
         _state.like = meta.like;
         _state.comment = meta.comment;
       }

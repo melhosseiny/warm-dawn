@@ -1,6 +1,6 @@
 import { html, state, web_component, define_component } from "flare";
 
-import { ASSET_HOST, ago, format_date, format_big_n } from "/components/app.js";
+import { ASSET_HOST, HOST, ago, format_date, format_big_n } from "/components/app.js";
 const PAGE_SIZE = 10;
 
 
@@ -16,6 +16,7 @@ const template = (data) => html`
             id="${data.post.id}"
             like="${data.post.like}"
             comment="${data.post.comment}"
+            url="${HOST}/post/${data.id}"
           ></wd-reactions>
           <wd-comments loading="lazy" id="${data.post.id}" can-add-comment="${true}" lang="en" dir="ltr"></wd-comments>
         </div>
