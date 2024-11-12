@@ -121,7 +121,9 @@ export function comments(spec) {
   }
 
   const init = () => {
-    _state.char_count = MAX_CHAR;
+    if (spec["can-add-comment"] === "true") {
+      _state.char_count = MAX_CHAR;
+    }
     if (spec.loading !== "lazy") {
       load();
     }
@@ -178,7 +180,7 @@ export function comments(spec) {
       return;
     }
     
-    const reactions_component = _root.parentNode.querySelector("wd-reactions").component
+    const reactions_component = _root.parentNode.querySelector("wd-reactions")?.component
     reactions_component?.increment_comment()
     let object = {};
     new FormData(form).forEach((value, key) => {object[key] = value});
