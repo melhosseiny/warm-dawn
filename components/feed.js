@@ -73,34 +73,6 @@ export function feed(spec) {
     event.preventDefault();
     fetch_more_posts(_state.page.cursor);
   }
-  
-  const toggle_comments = (event) => {
-    const selector = `wd-comments[id="${event.currentTarget.dataset.id}"]`;
-
-    if (event.currentTarget.dataset.open) {
-      event.currentTarget.removeAttribute("data-open");
-      shadow.querySelector(selector).setAttribute("style", "display: none;");
-    } else {
-      event.currentTarget.dataset.open = "open";
-      shadow.querySelector(selector).setAttribute("style", "display: block;");
-      console.log("loaded", event.currentTarget.dataset.loaded);
-      if (!("loaded" in event.currentTarget.dataset)) {
-        shadow.querySelector(selector).component.load();
-      }
-      event.currentTarget.dataset.loaded = '';
-    }
-  }
-
-  const share_post = async (event) => {
-    const id = event.currentTarget.dataset.id;
-    try {
-      await navigator.share({
-        url: `http://localhost:8000/post/${id}`,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   const effects = () => {
     const more_btn = shadow.querySelector('#more');

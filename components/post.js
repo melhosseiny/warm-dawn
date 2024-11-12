@@ -17,7 +17,7 @@ const template = (data) => html`
             like="${data.post.like}"
             comment="${data.post.comment}"
           ></wd-reactions>
-          <wd-comments loading="lazy" id="${data.post.id}" can-add-comment="${true}" lang="en" dir="ltr" style="display: none;"></wd-comments>
+          <wd-comments loading="lazy" id="${data.post.id}" can-add-comment="${true}" lang="en" dir="ltr"></wd-comments>
         </div>
       </ad-card>` : ''
     }

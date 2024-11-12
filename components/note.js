@@ -18,9 +18,18 @@ const template = (data) => html`
       <option value="ar" ${ data.lang === "ar" ? "selected" : ''}>ar</option>
     </select>
     ${ data.markup }
-    <div ref="show_comments">
-      ${ !data.show_comments || BLACKLISTED_IDS.includes(data.id) ? '' : `<wd-comments id="${data.id}" can-add-comment="${data.markup !== undefined}" lang="en" dir="ltr"></wd-comments>` }
-    </div>
+    ${ BLACKLISTED_IDS.includes(data.id) ? '' : `
+      <div id="actions" ref="like comment">
+        ${data.like && data.comment ?
+          `<wd-reactions
+            id="${data.id}"
+            like="${data.like}"
+            comment="${data.comment}"
+          ></wd-reactions>
+          <wd-comments id="${data.id}" can-add-comment="${data.markup !== undefined}" lang="en" dir="ltr"></wd-comments>` : ''
+        }
+      </div>`
+    }
   </article>
 `
 
@@ -182,7 +191,7 @@ const style = `
 `
 
 export function note(spec) {
-  let { _root } = spec;
+  let { shadow } = spec;
   const _web_component = web_component(spec);
   const _state = state(spec);
   
@@ -190,22 +199,24 @@ export function note(spec) {
     try {
       document.querySelector('#progress').component.show();
 
-      const has_math_response = await fetch(`${ASSET_HOST}/has_math?id=${spec.id}`);
-      const has_math = await has_math_response.text();
+      const meta = await (await fetch(`${ASSET_HOST}/note_meta/${spec.id}`)).json();
 
       const response = await fetch(BLACKLISTED_IDS.includes(spec.id) ? `${ASSET_HOST}/${spec.id}${lang}.html` : `${ASSET_HOST}/note/${spec.id}${lang}.html`);
       if (response.status === 404) { throw 'Page not found' }
       const note = await response.text();
       
-      _state.show_comments = true;
+      if (!BLACKLISTED_IDS.includes(spec.id)) {
+        _state.like = meta.like;
+        _state.comment = meta.comment;
+      }
       _state.markup = note;
-      if (has_math === "true") {
+      
+      if (meta.has_math === true) {
         const style_el = document.createElement("style");
         style_el.innerHTML = '@import "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css"';
-        _root.shadowRoot.appendChild(style_el);
+        shadow.appendChild(style_el);
       }
     } catch (error) {
-      _state.show_comments = false;
       console.log(error);
       document.title = `${error} - Mostafa Elshamy`;
       switch (_state.lang) {
@@ -218,18 +229,22 @@ export function note(spec) {
         default:
           _state.markup = html_404(error);
       }
+      hide_actions();
     } finally {
       document.querySelector('#progress').component.hide();
     }
   }
 
   const init = () => {
-    _state.show_comments = false;
     fetch_note();
+  }
+  
+  const hide_actions = () => {
+    shadow.querySelector("#actions").style.display = "none";
   }
 
   const effects = () => {
-    const lang_selector = _root.shadowRoot.querySelector("#lang-selector");
+    const lang_selector = shadow.querySelector("#lang-selector");
     if (lang_selector) {
       lang_selector.onchange = (event) => {
         const lang = event.target.value;

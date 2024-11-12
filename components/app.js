@@ -2,6 +2,7 @@ import { installRouter } from "router";
 
 //export const ASSET_HOST = "http://localhost:4507";
 export const ASSET_HOST = "https://important-deer-81.deno.dev";
+export const HOST = "https://warm-dawn.deno.dev";
 
 const toTitleCase = function(s) {
   return s.replace(/-/g, ' ')[0].toUpperCase() +
@@ -127,4 +128,13 @@ export function format_date(datetime) {
 export function format_big_n(n) {
   return (new Intl.NumberFormat('en', { notation: 'compact' })
     .format(n)).toLowerCase();
+}
+
+export function debounce(func, wait) {
+  let timeout;
+  return function(...args) {
+    const context = this;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(context, args), wait);
+  };
 }

@@ -1,6 +1,6 @@
 import { html, state, web_component, define_component } from "flare";
 
-import { ASSET_HOST, ago, format_date } from "/components/app.js";
+import { ASSET_HOST, ago, format_date, debounce } from "/components/app.js";
 
 const MAX_CHAR = 140;
 
@@ -35,7 +35,7 @@ const template = (data) => html`
 
 const style = `
   :host {
-    display: block;
+    display: none;
   }
 
   p {
@@ -135,11 +135,11 @@ export function comments(spec) {
   }
   
   const toggle_comments = () => {
-    if (_root.dataset.open) {
+    if (_root.dataset.open === "") {
       _root.removeAttribute("data-open");
       _root.setAttribute("style", "display: none;");
     } else {
-      _root.dataset.open = "open";
+      _root.dataset.open = "";
       _root.setAttribute("style", "display: block;");
       if (!("loaded" in _root.dataset)) {
         load();
@@ -147,18 +147,8 @@ export function comments(spec) {
     }
   }
 
-  const effects = () => {
-    shadow.querySelector('#submit-btn')?.addEventListener("click", submit_comment_form);
-    shadow.querySelector('#comment')?.addEventListener("input", handle_input);
-  }
-  
-  const cleanup_effects = () => {
-    shadow.querySelector('#submit-btn')?.removeEventListener("click", submit_comment_form);
-    shadow.querySelector('#comment')?.removeEventListener("input", handle_input);
-  }
-
-  const handle_input = (event) => {
-    const input_field = event.target;
+  const update_char_count = (target) => {
+    const input_field = target;
     const trimmed_value = input_field.value.trim();
     if (input_field.value === "" || trimmed_value !== "") {
       input_field.setCustomValidity("");
@@ -166,7 +156,14 @@ export function comments(spec) {
       input_field.setCustomValidity("Please fill out this field.");
     }
     _state.char_count = MAX_CHAR - input_field.value.length;
-    console.log(event.target, event.currentTarget);
+  }
+  
+  const debounced_update_char_count = debounce((target) => {
+    update_char_count(target) },
+  300);
+  
+  const handle_input = (event) => {
+    debounced_update_char_count(event.target);
   }
   
   const submit_comment_form = (event) => {
@@ -199,6 +196,16 @@ export function comments(spec) {
       }
     })
     .catch(error => { console.log(error); document.querySelector('#toast').component.display("Uh oh! Comment not posted.") });
+  }
+  
+  const effects = () => {
+    shadow.querySelector('#submit-btn')?.addEventListener("click", submit_comment_form);
+    shadow.querySelector('#comment')?.addEventListener("input", handle_input);
+  }
+  
+  const cleanup_effects = () => {
+    shadow.querySelector('#submit-btn')?.removeEventListener("click", submit_comment_form);
+    shadow.querySelector('#comment')?.removeEventListener("input", handle_input);
   }
 
   return Object.freeze({
