@@ -186,7 +186,6 @@ export function note(spec) {
   const _web_component = web_component(spec);
   const _state = state(spec);
   
-
   const fetch_note = async (lang = '') => {
     try {
       document.querySelector('#progress').component.show();

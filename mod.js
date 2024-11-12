@@ -19,7 +19,7 @@ Deno.serve(async (request) => {
   let { pathname } = new URL(request.url);
 
   pathname = pathname === "/" ? "/index_inline.html" : pathname;
-  console.log(request.url, pathname, PATHNAME_PREFIX, import.meta.url);
+//  console.log(request.url, pathname, PATHNAME_PREFIX, import.meta.url);
 
   let response_body = static_path.some(prefix => pathname.startsWith(prefix))
 //    ? await Deno.readFile(`.${pathname}`)

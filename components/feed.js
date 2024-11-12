@@ -31,6 +31,7 @@ const template = (data) => html`
 
 const style = `
   :host {
+    display: block;
     max-width: 38em;
   }
 

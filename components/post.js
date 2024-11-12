@@ -25,6 +25,10 @@ const template = (data) => html`
 `
 
 const style = `
+  :host {
+    display: block;
+  }
+
   :host, p {
     line-height: 1.25em;
     font-size: 1rem;
@@ -81,22 +85,6 @@ export function post(spec) {
   const init = () => {
     fetch_post();
   }
-  
-  const toggle_comments = () => {
-    const comments = shadow.querySelector("wd-comments");
-
-    if (_root.dataset.open) {
-      _root.removeAttribute("data-open");
-      comments.setAttribute("style", "display: none;");
-    } else {
-      _root.dataset.open = "open";
-      comments.setAttribute("style", "display: block;");
-      if (!("loaded" in comments.dataset)) {
-        comments.component.load();
-      }
-      comments.dataset.loaded = '';
-    }
-  }
 
   const effects = () => {
   }
@@ -108,8 +96,7 @@ export function post(spec) {
     ..._web_component,
     init,
     effects,
-    cleanup_effects,
-    toggle_comments
+    cleanup_effects
   })
 }
 

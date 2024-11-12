@@ -78,7 +78,7 @@ const style = `
 `
 
 export function reactions(spec) {
-  let { shadow } = spec;
+  let { _root, shadow } = spec;
   const _web_component = web_component(spec);
   const _state = state(spec);
   
@@ -92,7 +92,6 @@ export function reactions(spec) {
       if (response.ok) {
         increment_like();
         document.querySelector('#toast').component.display("Post liked!");
-        //fetch_note_comments();
       } else {
         throw new Error('Network response was not ok.');
       }
@@ -101,11 +100,8 @@ export function reactions(spec) {
   }
   
   const toggle_comments = (event) => {
-    const post_component = document.querySelector("wd-feed").shadowRoot
-      .querySelector(`wd-post[id="${spec.id}"]`)
-      .component
-    
-    post_component.toggle_comments();
+    const comments_component = _root.parentNode.querySelector("wd-comments").component;
+    comments_component?.toggle_comments();
   }
 
   const share_post = async (event) => {
