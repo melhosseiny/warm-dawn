@@ -61,20 +61,23 @@ const style = `
 
   #add-comment-form textarea {
     margin: 0 3px;
-    padding: 5px;
-    padding-right: calc(3ch + 34px);
+    padding: 4px;
+    padding-right: calc(3ch + 40px);
     flex: 1;
     box-sizing: border-box;
     border: 0;
     border-radius: var(--border-radius);
     resize: none;
+    overflow: hidden;
     font-family: var(--type-body), sans-serif;
     font-size: 1rem;
     height: calc(1.5*var(--line-height-body));
+    line-height: var(--line-height-body);
   }
 
   #add-comment-form textarea:focus:focus-visible {
     outline: 3px solid rgb(0, 103, 244,0.5);
+    outline-offset: 0px;
   }
 
   #add-comment-form button {
@@ -82,7 +85,7 @@ const style = `
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    right: 6px;
+    right: 5px;
     border: 0;
   }
 
@@ -90,7 +93,7 @@ const style = `
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    right: 36px;
+    right: 40px;
     min-width: 3ch;
     text-align: right;
     font-size: 1rem;
